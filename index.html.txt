@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OLYMPUS — Multi-Agent Seller OS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    .epic { font-family: 'Cinzel', serif; }
+    .glow { text-shadow: 0 0 35px rgba(185,28,28,0.65); }
+    .hero-bg { background: radial-gradient(circle at 50% 25%, rgba(185,28,28,0.2) 0%, transparent 65%); }
+  </style>
+</head>
+<body class="overflow-x-hidden">
+
+<!-- NAV -->
+<nav class="fixed top-0 z-50 w-full bg-black/80 backdrop-blur-xl border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+    <!-- Logo fiel ao dashboard: texto OLYMPUS em epic font + símbolo sutil (orbe/escudo mitológico) -->
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#b91c1c] via-[#991b1b] to-[#d4af77] flex items-center justify-center shadow-[0_0_30px_rgba(212,175,119,0.5)]">
+        <span class="text-3xl font-black text-black epic">O</span>
+      </div>
+      <span class="text-4xl font-black tracking-tight epic glow">OLYMPUS</span>
+    </div>
+
+    <div class="flex items-center gap-6">
+      <button onclick="toggleTheme()" class="text-xl hover:opacity-80">☀️/🌙</button>
+      <button onclick="toggleLanguage()" id="lang-btn" class="px-5 py-2 border border-white/40 rounded-xl text-sm font-medium hover:bg-white/10">EN</button>
+      <a href="#waitlist" class="bg-[#b91c1c] hover:bg-red-800 px-8 py-4 rounded-2xl font-bold transition">Entrar na Waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO: CURIOSIDADE + VENDA -->
+<section class="min-h-screen hero-bg flex items-center relative pt-24">
+  <canvas id="three-canvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="inline-block bg-white/5 backdrop-blur-lg px-6 py-3 rounded-full text-sm font-medium mb-8 border border-red-900/50">
+      <span class="text-emerald-400 animate-pulse">● LIVE</span> — Agentes trabalhando agora mesmo
+    </div>
+    <h1 class="text-6xl md:text-8xl font-black leading-tight epic glow">
+      IMAGINE SEUS <span class="text-[#b91c1c]">DEUSES DE IA</span><br>
+      VENDENDO, OTIMIZANDO E ESCALANDO<br>
+      SUA LOJA NA AMAZON 24/7
+    </h1>
+    <p class="mt-8 text-2xl md:text-3xl text-zinc-300 max-w-4xl" data-en="While you live your life, Apollo analyzes thousands of SKUs, Plutus protects your margins, Hermes manages suppliers — and your revenue grows autonomously.">
+      Enquanto você vive sua vida, Apollo analisa milhares de SKUs, Plutus protege suas margens, Hermes gerencia fornecedores — e seu faturamento cresce sozinho.
+    </p>
+    <div class="mt-12 flex flex-wrap gap-6">
+      <a href="#waitlist" class="bg-[#b91c1c] hover:bg-red-800 px-12 py-6 rounded-3xl text-2xl font-bold">Quero acesso prioritário</a>
+      <a href="#agents" class="border-2 border-white/50 hover:bg-white/10 px-12 py-6 rounded-3xl text-2xl font-medium">Conhecer os Agentes</a>
+    </div>
+    <p class="mt-10 text-lg text-zinc-400">Vagas limitadas na primeira leva • Acesso exclusivo para quem entrar agora</p>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS / PONTOS FORTES -->
+<section class="py-32 bg-black/60" id="benefits">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-6xl epic font-black text-center mb-20 glow" data-en="Why Sellers Are Switching to Olympus">Por que Sellers Estão Migrando para o Olympus</h2>
+    <div class="grid md:grid-cols-3 gap-10">
+      <div class="bg-zinc-900/70 p-10 rounded-3xl border border-red-900/30 hover:border-red-600/60 transition-all" data-gsap="fade-up">
+        <h3 class="text-3xl font-bold text-[#d4af77] mb-6">Mais Lucro, Menos Trabalho</h3>
+        <p class="text-xl text-zinc-300">Reajustes automáticos, defesa de Buy Box e otimização de ads que já reduziram gastos em milhares de reais enquanto aumentam ROI.</p>
+      </div>
+      <div class="bg-zinc-900/70 p-10 rounded-3xl border border-red-900/30 hover:border-red-600/60 transition-all" data-gsap="fade-up" data-delay="0.2">
+        <h3 class="text-3xl font-bold text-[#d4af77] mb-6">Inteligência Autônoma</h3>
+        <p class="text-xl text-zinc-300">Agentes com níveis (Lv1 a Lv3) que aprendem, analisam 4.000+ SKUs e encontram oportunidades que você jamais veria manualmente.</p>
+      </div>
+      <div class="bg-zinc-900/70 p-10 rounded-3xl border border-red-900/30 hover:border-red-600/60 transition-all" data-gsap="fade-up" data-delay="0.4">
+        <h3 class="text-3xl font-bold text-[#d4af77] mb-6">Escala Sem Contratar</h3>
+        <p class="text-xl text-zinc-300">Do faturamento diário de centenas ao mensal de dezenas de milhares — tudo orquestrado por um CEO de IA que nunca dorme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTES (POTENCIAL) -->
+<section class="py-32" id="agents">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-6xl epic font-black text-center mb-16 glow" data-en="Meet Your Autonomous Legion">Conheça Sua Legião Autônoma</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="group bg-gradient-to-br from-zinc-900 to-black p-8 rounded-3xl border border-red-900/40 hover:scale-105 transition-all">
+        <h3 class="text-2xl font-bold text-[#d4af77]">Apollo — Analista de Inteligência</h3>
+        <p class="mt-4 text-zinc-300">Analisa milhares de SKUs, encontra oportunidades ocultas e gera insights que impulsionam vendas.</p>
+      </div>
+      <div class="group bg-gradient-to-br from-zinc-900 to-black p-8 rounded-3xl border border-red-900/40 hover:scale-105 transition-all">
+        <h3 class="text-2xl font-bold text-[#d4af77]">Plutus — Controlador Financeiro</h3>
+        <p class="mt-4 text-zinc-300">Otimiza gastos com ads, protege margens e maximiza lucro líquido em tempo real.</p>
+      </div>
+      <div class="group bg-gradient-to-br from-zinc-900 to-black p-8 rounded-3xl border border-red-900/40 hover:scale-105 transition-all">
+        <h3 class="text-2xl font-bold text-[#d4af77]">Hermes — Gestor de Fornecedores</h3>
+        <p class="mt-4 text-zinc-300">Processa catálogos, filtra produtos e garante estoque sem surpresas.</p>
+      </div>
+      <!-- Adicione mais conforme quiser (Atena, Ares, etc.) -->
+    </div>
+    <p class="text-center mt-16 text-2xl text-emerald-400 font-medium">Eles trabalham em equipe, coordenados por um CEO de IA — seu império cresce enquanto você descansa.</p>
+  </div>
+</section>
+
+<!-- ESCASSEZ + CTA FINAL -->
+<section id="waitlist" class="py-32 bg-gradient-to-b from-black to-[#0a0000]">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-6xl epic font-black glow mb-8">Não perca sua vaga na revolução dos sellers autônomos</h2>
+    <p class="text-3xl text-zinc-300 mb-12">A primeira leva de acesso está quase lotada. Entre na waitlist agora para prioridade, demo exclusiva e lançamento antecipado.</p>
+    <a href="https://seu-form.typeform.com/to/XXXX" target="_blank" class="inline-block bg-[#b91c1c] hover:bg-red-800 px-16 py-8 rounded-3xl text-3xl font-bold">Reservar Minha Vaga Agora →</a>
+    <p class="mt-10 text-xl text-zinc-400">Quanto antes você entrar, mais cedo seu império começa a rodar sozinho.</p>
+  </div>
+</section>
+
+<!-- SCRIPTS (3D, GSAP, toggles) -->
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  }
+
+  // Language toggle (simples, expanda se precisar mais textos)
+  let lang = 'pt';
+  function toggleLanguage() {
+    lang = lang === 'pt' ? 'en' : 'pt';
+    document.getElementById('lang-btn').textContent = lang.toUpperCase();
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const en = el.getAttribute('data-en');
+      const pt = el.dataset.pt || el.textContent.trim();
+      el.textContent = lang === 'en' ? en : pt;
+      if (!el.dataset.pt) el.dataset.pt = pt;
+    });
+  }
+
+  // GSAP fade-ups
+  gsap.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('[data-gsap="fade-up"]').forEach((el, i) => {
+    gsap.from(el, {
+      y: 100, opacity: 0, duration: 1.2, ease: "power3.out",
+      scrollTrigger: { trigger: el, start: "top 85%" },
+      delay: i * 0.15
+    });
+  });
+
+  // Three.js 3D hero (CEO central + agentes orbitando)
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.position.z = 45;
+
+  const light = new THREE.PointLight(0xffffff, 2.5, 100);
+  light.position.set(0, 20, 30);
+  scene.add(light);
+
+  // CEO (esfera dourada central)
+  const ceo = new THREE.Mesh(new THREE.SphereGeometry(5, 64, 64), new THREE.MeshPhongMaterial({color: 0xd4af77, emissive: 0xb45309, shininess: 100}));
+  scene.add(ceo);
+
+  // Agentes orbitando (orbes coloridos)
+  const colors = [0xef4444, 0x22c55e, 0x3b82f6, 0xd97706, 0xec4899, 0x8b5cf6];
+  for (let i = 0; i < 6; i++) {
+    const orb = new THREE.Mesh(new THREE.SphereGeometry(2, 32, 32), new THREE.MeshPhongMaterial({color: colors[i], emissive: colors[i], emissiveIntensity: 0.8}));
+    orb.userData = { angle: i * Math.PI * 2 / 6, radius: 22 };
+    scene.add(orb);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = Date.now() * 0.0004;
+    scene.children.forEach(c => {
+      if (c.userData.angle !== undefined) {
+        const a = c.userData.angle + t * 1.2;
+        c.position.x = Math.cos(a) * c.userData.radius;
+        c.position.z = Math.sin(a) * c.userData.radius * 0.8;
+        c.position.y = Math.sin(a * 2) * 8;
+      }
+    });
+    ceo.rotation.y += 0.004;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+</body>
+</html>	
