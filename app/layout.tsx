@@ -18,7 +18,35 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "OLYMPUS — Multi-Agent Seller OS",
   description:
-    "Enquanto você vive sua vida, sua loja na Amazon vende, otimiza e escala sozinha. Multi-Agent Seller OS with 10 autonomous AI agents.",
+    "Enquanto você vive sua vida, sua loja na Amazon vende, otimiza e escala sozinha. 10 agentes autônomos de IA gerenciam preços, ads, estoque e listings 24/7.",
+  keywords: ["Amazon Seller", "IA", "automação", "marketplace", "multi-agent", "seller OS", "OLYMPUS"],
+  authors: [{ name: "TwelvePrime" }],
+  openGraph: {
+    title: "OLYMPUS — Multi-Agent Seller OS",
+    description: "10 agentes autônomos de IA gerenciam sua loja na Amazon 24/7. Preços, ads, estoque e listings — tudo no automático.",
+    url: "https://olympuslp.vercel.app",
+    siteName: "OLYMPUS",
+    images: [
+      {
+        url: "https://olympuslp.vercel.app/images/og-cover.png",
+        width: 1200,
+        height: 630,
+        alt: "OLYMPUS — Multi-Agent Seller OS Dashboard",
+      },
+    ],
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OLYMPUS — Multi-Agent Seller OS",
+    description: "10 agentes autônomos de IA gerenciam sua loja na Amazon 24/7.",
+    images: ["https://olympuslp.vercel.app/images/og-cover.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

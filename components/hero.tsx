@@ -78,6 +78,15 @@ export function Hero() {
             "10 autonomous agents analyze SKUs, protect margins, manage inventory and campaigns — while you rest."
           )}
         </p>
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#waitlist" className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 px-8 py-4 font-display text-base font-semibold text-white shadow-lg shadow-teal-900/40 transition-all duration-300 hover:from-teal-400 hover:to-teal-500 hover:shadow-teal-800/50 hover:scale-105">
+            {t("Quero Acesso Antecipado", "Get Early Access")}
+            <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+          <a href="/demo" className="inline-flex items-center justify-center rounded-xl border-2 border-zinc-700 px-8 py-4 font-display text-base font-semibold text-zinc-300 transition-all duration-300 hover:border-zinc-500 hover:text-white hover:bg-zinc-800/50">
+            {t("Ver Demo", "View Demo")}
+          </a>
+        </div>
         <div className="mt-14 mx-auto max-w-md">
           <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-sm p-5">
             <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-3 font-semibold">{t("Atividade ao vivo", "Live activity")}</p>

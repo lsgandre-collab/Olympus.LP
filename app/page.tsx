@@ -7,6 +7,7 @@ import { SectionDashboard } from "@/components/section-dashboard";
 import { SectionResults } from "@/components/section-results";
 import { SectionHowItWorks } from "@/components/section-how-it-works";
 import { SectionPackages } from "@/components/section-packages";
+import { SectionFAQ } from "@/components/section-faq";
 import { Waitlist } from "@/components/waitlist";
 import { Footer } from "@/components/footer";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -39,6 +40,9 @@ export default function HomePage() {
         </ScrollReveal>
         <ScrollReveal>
           <SectionPackages />
+        </ScrollReveal>
+        <ScrollReveal>
+          <SectionFAQ />
         </ScrollReveal>
         <ScrollReveal>
           <Waitlist />

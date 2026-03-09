@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "/#orquestrador", labelPt: "Orquestrador", labelEn: "Orchestrator" },
   { href: "/demo", labelPt: "Demo", labelEn: "Demo" },
   { href: "/#pacotes", labelPt: "Pacotes", labelEn: "Packages" },
+  { href: "/#faq", labelPt: "FAQ", labelEn: "FAQ" },
 ];
 
 export function Nav() {

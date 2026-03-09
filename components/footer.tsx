@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/#orquestrador", labelPt: "Orquestrador", labelEn: "Orchestrator" },
   { href: "/demo", labelPt: "Demo", labelEn: "Demo" },
   { href: "/#pacotes", labelPt: "Pacotes", labelEn: "Packages" },
+  { href: "/#faq", labelPt: "FAQ", labelEn: "FAQ" },
   { href: "#waitlist", labelPt: "Waitlist", labelEn: "Waitlist" },
 ];
 
@@ -27,9 +28,16 @@ export function Footer() {
             ))}
           </div>
         </div>
-        <div className="mt-8 text-center space-y-2">
-          <p className="text-xs text-zinc-500">© {new Date().getFullYear()} OLYMPUS. {t("Todos os direitos reservados.", "All rights reserved.")}</p>
-          <p className="text-xs text-zinc-600">{t("Um produto", "A product by")} <span className="text-zinc-400 font-medium">TwelvePrime</span></p>
+        <div className="mt-8 border-t border-zinc-800/60 pt-6">
+          <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+            <div className="flex flex-wrap gap-6 justify-center">
+              <Link href="/termos" className="text-xs text-zinc-500 transition hover:text-zinc-300">{t("Termos de Uso", "Terms of Service")}</Link>
+              <Link href="/privacidade" className="text-xs text-zinc-500 transition hover:text-zinc-300">{t("Política de Privacidade", "Privacy Policy")}</Link>
+              <Link href="/lgpd" className="text-xs text-zinc-500 transition hover:text-zinc-300">{t("LGPD", "LGPD")}</Link>
+            </div>
+            <p className="text-xs text-zinc-500">© {new Date().getFullYear()} OLYMPUS. {t("Todos os direitos reservados.", "All rights reserved.")}</p>
+          </div>
+          <p className="mt-3 text-center text-xs text-zinc-600">{t("Um produto", "A product by")} <span className="text-zinc-400 font-medium">TwelvePrime</span></p>
         </div>
       </div>
     </footer>

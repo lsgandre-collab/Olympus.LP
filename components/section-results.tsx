@@ -18,7 +18,7 @@ export function SectionResults() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-5xl">{t("Resultados Reais", "Real Results")}</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-zinc-400 text-lg">{t("Simulações baseadas em dados reais da ferramenta OLYMPUS.", "Simulations based on real data from the OLYMPUS tool.")}</p>
+          <p className="mt-4 max-w-2xl mx-auto text-zinc-400 text-lg">{t("Métricas extraídas de operações reais monitoradas pelo OLYMPUS.", "Metrics extracted from real operations monitored by OLYMPUS.")}</p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {METRICS.map((m, i) => (

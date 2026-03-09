@@ -3,16 +3,16 @@
 import { useLang } from "@/contexts/lang-context";
 
 const AGENTS = [
-  { symbol: "Α", color: "#8b5cf6", funcPt: "Análise de SKUs em tempo real", funcEn: "Real-time SKU analysis" },
-  { symbol: "Β", color: "#22c55e", funcPt: "Proteção de margens e preços", funcEn: "Margin and price protection" },
-  { symbol: "Γ", color: "#3b82f6", funcPt: "Gestão de fornecedores", funcEn: "Supplier management" },
-  { symbol: "Δ", color: "#eab308", funcPt: "Campanhas e ACoS", funcEn: "Campaigns and ACoS" },
-  { symbol: "Ε", color: "#f97316", funcPt: "Listings e catálogo", funcEn: "Listings and catalog" },
-  { symbol: "Ζ", color: "#14b8a6", funcPt: "Inventário automático", funcEn: "Auto inventory" },
-  { symbol: "Η", color: "#ec4899", funcPt: "Logística e entregas", funcEn: "Logistics and delivery" },
-  { symbol: "Θ", color: "#a855f7", funcPt: "Relatórios preditivos", funcEn: "Predictive reports" },
-  { symbol: "Ι", color: "#6366f1", funcPt: "Reviews e reputação", funcEn: "Reviews and reputation" },
-  { symbol: "Κ", color: "#d4af77", funcPt: "Controle financeiro", funcEn: "Financial control" },
+  { symbol: "Ψ", name: "Apollo", color: "#8b5cf6", funcPt: "Análise de SKUs em tempo real", funcEn: "Real-time SKU analysis" },
+  { symbol: "Φ", name: "Artemis", color: "#22c55e", funcPt: "Proteção de margens e preços", funcEn: "Margin and price protection" },
+  { symbol: "Σ", name: "Hermes", color: "#3b82f6", funcPt: "Gestão de fornecedores", funcEn: "Supplier management" },
+  { symbol: "Δ", name: "Ares", color: "#eab308", funcPt: "Campanhas e ACoS", funcEn: "Campaigns and ACoS" },
+  { symbol: "Λ", name: "Hefesto", color: "#f97316", funcPt: "Listings e catálogo", funcEn: "Listings and catalog" },
+  { symbol: "Ζ", name: "Deméter", color: "#14b8a6", funcPt: "Inventário automático", funcEn: "Auto inventory" },
+  { symbol: "Θ", name: "Atena", color: "#ec4899", funcPt: "Logística e entregas", funcEn: "Logistics and delivery" },
+  { symbol: "Ξ", name: "Calíope", color: "#a855f7", funcPt: "Relatórios preditivos", funcEn: "Predictive reports" },
+  { symbol: "Π", name: "Plutus", color: "#6366f1", funcPt: "Reviews e reputação", funcEn: "Reviews and reputation" },
+  { symbol: "Κ", name: "Iris", color: "#d4af77", funcPt: "Controle financeiro", funcEn: "Financial control" },
 ];
 
 const CONNECTIONS: [number, number][] = [
@@ -30,7 +30,7 @@ export function SectionAgents() {
   const R = 34;
 
   return (
-    <section id="agentes" className="py-32 md:py-44 lg:py-56 border-t border-zinc-800/80 bg-zinc-900/10 relative overflow-hidden">
+    <section id="agentes" className="py-20 md:py-28 lg:py-32 border-t border-zinc-800/80 bg-zinc-900/10 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center mb-24">
           <p className="text-sm font-semibold uppercase tracking-widest text-teal-400 mb-4">{t("O coração do sistema", "The heart of the system")}</p>
@@ -90,7 +90,10 @@ export function SectionAgents() {
                 >
                   <span className="text-white font-display font-bold text-2xl select-none">{agent.symbol}</span>
                 </div>
-                <span className="text-[10px] sm:text-xs text-zinc-400 text-center font-medium max-w-[90px] leading-tight">
+                <span className="text-xs sm:text-sm text-white text-center font-display font-semibold leading-tight">
+                  {agent.name}
+                </span>
+                <span className="text-[10px] sm:text-xs text-zinc-400 text-center font-medium max-w-[100px] leading-tight">
                   {t(agent.funcPt, agent.funcEn)}
                 </span>
               </div>

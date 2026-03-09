@@ -70,7 +70,7 @@ const CHANNELS = [
 export function SectionOrchestrator() {
   const { t, lang } = useLang();
   return (
-    <section id="orquestrador" className="py-36 md:py-48 lg:py-56 border-t border-zinc-800/80 bg-gradient-to-b from-zinc-950 via-zinc-900/40 to-zinc-950 relative overflow-hidden">
+    <section id="orquestrador" className="py-20 md:py-28 lg:py-32 border-t border-zinc-800/80 bg-gradient-to-b from-zinc-950 via-zinc-900/40 to-zinc-950 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)" }} />
       </div>
