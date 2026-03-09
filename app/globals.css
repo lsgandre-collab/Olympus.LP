@@ -18,13 +18,6 @@
     --ring: 0 0% 60%;
     --radius: 0.75rem;
   }
-  .dark {
-    --background: 0 0% 3%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 6%;
-    --primary: 0 0% 98%;
-    --border: 0 0% 14%;
-  }
 }
 
 @layer base {
@@ -41,58 +34,54 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Premium: section spacing */
 .section-padding {
   @apply py-20 md:py-28 lg:py-32;
 }
 
-/* Subtle fade-in for sections */
 @keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
 }
 
-.animate-delay-1 { animation-delay: 0.1s; }
-.animate-delay-2 { animation-delay: 0.2s; }
-.animate-delay-3 { animation-delay: 0.3s; }
-.animate-delay-4 { animation-delay: 0.4s; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
 
-/* Skip link */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes ticker-fade {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes waveform {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
 .skip-link {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 .skip-link:focus {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 100;
-  width: auto;
-  height: auto;
-  padding: 0.75rem 1rem;
-  margin: 0;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
-  background: #fff;
-  color: #000;
-  border-radius: 0.5rem;
-  outline: none;
+  position: absolute; top: 1rem; left: 1rem; z-index: 100;
+  width: auto; height: auto; padding: 0.75rem 1rem; margin: 0;
+  overflow: visible; clip: auto; white-space: normal;
+  background: #18181b; color: #fafafa; border: 1px solid #27272a;
+  border-radius: 0.5rem; outline: none;
+}
+
+.agent-tooltip {
+  @apply px-4 py-3 rounded-xl text-sm font-medium max-w-[240px] text-center shadow-lg;
+  background: #09090b;
+  color: #fafafa;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 0 24px rgba(234, 179, 8, 0.12);
 }

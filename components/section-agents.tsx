@@ -3,60 +3,99 @@
 import { useLang } from "@/contexts/lang-context";
 
 const AGENTS = [
-  { name: "Apollo", rolePt: "Analista de Inteligência", roleEn: "Intelligence Analyst", status: "active" },
-  { name: "Plutus", rolePt: "Controlador Financeiro", roleEn: "Financial Controller", status: "active" },
-  { name: "Hermes", rolePt: "Gestor de Fornecedores", roleEn: "Supplier Manager", status: "active" },
-  { name: "Artemis", rolePt: "Monitor de Preços", roleEn: "Price Monitor", status: "active" },
-  { name: "Ares", rolePt: "Gestor de Publicidade", roleEn: "Ads Manager", status: "active" },
-  { name: "Hefesto", rolePt: "Especialista em Listings", roleEn: "Listing Specialist", status: "active" },
-  { name: "Deméter", rolePt: "Controladora de Inventário", roleEn: "Inventory Controller", status: "active" },
-  { name: "Atena", rolePt: "Coordenadora Logística", roleEn: "Logistics Coordinator", status: "active" },
-  { name: "Calíope", rolePt: "Analista de Dados", roleEn: "Data Analyst", status: "active" },
-  { name: "ATLAS", rolePt: "CEO Orchestrator", roleEn: "CEO Orchestrator", status: "ceo" },
-] as const;
+  { symbol: "Α", color: "#8b5cf6", funcPt: "Análise de SKUs em tempo real", funcEn: "Real-time SKU analysis" },
+  { symbol: "Β", color: "#22c55e", funcPt: "Proteção de margens e preços", funcEn: "Margin and price protection" },
+  { symbol: "Γ", color: "#3b82f6", funcPt: "Gestão de fornecedores", funcEn: "Supplier management" },
+  { symbol: "Δ", color: "#eab308", funcPt: "Campanhas e ACoS", funcEn: "Campaigns and ACoS" },
+  { symbol: "Ε", color: "#f97316", funcPt: "Listings e catálogo", funcEn: "Listings and catalog" },
+  { symbol: "Ζ", color: "#14b8a6", funcPt: "Inventário automático", funcEn: "Auto inventory" },
+  { symbol: "Η", color: "#ec4899", funcPt: "Logística e entregas", funcEn: "Logistics and delivery" },
+  { symbol: "Θ", color: "#a855f7", funcPt: "Relatórios preditivos", funcEn: "Predictive reports" },
+  { symbol: "Ι", color: "#6366f1", funcPt: "Reviews e reputação", funcEn: "Reviews and reputation" },
+  { symbol: "Κ", color: "#d4af77", funcPt: "Controle financeiro", funcEn: "Financial control" },
+];
+
+const CONNECTIONS: [number, number][] = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 0],
+  [0, 5], [1, 6], [2, 7], [3, 8], [4, 9],
+];
+
+function pos(i: number, r: number) {
+  const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
+  return { x: 50 + r * Math.cos(a), y: 50 + r * Math.sin(a) };
+}
 
 export function SectionAgents() {
   const { t } = useLang();
+  const R = 34;
 
   return (
-    <section id="agentes" className="section-padding border-t border-zinc-800/80 bg-zinc-900/30">
-      <div className="mx-auto max-w-6xl px-6">
-        <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-4xl">
-          {t("Seus Deuses Autônomos", "Your Autonomous Gods")}
-        </h2>
-        <p className="mt-4 max-w-2xl text-zinc-400">
-          {t(
-            "10 agentes de IA trabalhando em conjunto. Cada um com sua especialidade; o ATLAS orquestra tudo.",
-            "10 AI agents working together. Each with their specialty; ATLAS orchestrates everything."
-          )}
-        </p>
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {AGENTS.map((agent, i) => (
-            <div
-              key={agent.name}
-              className="animate-fade-in-up rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition hover:border-zinc-700"
-              style={{ animationDelay: `${i * 0.05}s` }}
-            >
-              <div className="flex items-center justify-between">
-                <h3 className="font-display text-lg font-semibold text-white">
-                  {agent.name}
-                  <span className="ml-2 text-zinc-500">—</span>
-                  <span className="ml-1 text-zinc-400">
-                    {t(agent.rolePt, agent.roleEn)}
-                  </span>
-                </h3>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                    agent.status === "ceo"
-                      ? "bg-amber-500/20 text-amber-400"
-                      : "bg-emerald-500/20 text-emerald-400"
-                  }`}
+    <section id="agentes" className="py-32 md:py-44 lg:py-56 border-t border-zinc-800/80 bg-zinc-900/10 relative overflow-hidden">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="text-center mb-24">
+          <p className="text-sm font-semibold uppercase tracking-widest text-teal-400 mb-4">{t("O coração do sistema", "The heart of the system")}</p>
+          <h2 className="font-display text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
+            {t("Seus Agentes Autônomos", "Your Autonomous Agents")}
+          </h2>
+          <p className="mt-6 max-w-2xl mx-auto text-zinc-400 text-lg md:text-xl">
+            {t("10 agentes de IA especializados, conectados por linhas de dados e trabalhando 24/7 pelo seu negócio.", "10 specialized AI agents, connected by data lines and working 24/7 for your business.")}
+          </p>
+        </div>
+        <div className="relative w-full max-w-4xl mx-auto aspect-square">
+          <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" aria-hidden>
+            <defs>
+              <filter id="glow-line">
+                <feGaussianBlur stdDeviation="0.4" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+            {CONNECTIONS.map(([a, b], i) => {
+              const pA = pos(a, R);
+              const pB = pos(b, R);
+              const isOuter = i < 10;
+              return (
+                <line
+                  key={i}
+                  x1={pA.x} y1={pA.y} x2={pB.x} y2={pB.y}
+                  stroke={isOuter ? "#eab308" : "#14b8a6"}
+                  strokeWidth={isOuter ? "0.35" : "0.2"}
+                  strokeOpacity={isOuter ? "0.6" : "0.35"}
+                  filter="url(#glow-line)"
+                  style={{ animation: `pulse-glow 2.5s ease-in-out ${i * 0.12}s infinite` }}
+                />
+              );
+            })}
+          </svg>
+          {AGENTS.map((agent, i) => {
+            const p = pos(i, R);
+            return (
+              <div
+                key={i}
+                className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2"
+                style={{
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                  animation: `float 5s ease-in-out ${i * 0.4}s infinite`,
+                }}
+              >
+                <div
+                  className="rounded-full flex items-center justify-center transition-transform duration-300 hover:scale-125"
+                  style={{
+                    width: 72,
+                    height: 72,
+                    backgroundColor: agent.color,
+                    boxShadow: `0 0 36px ${agent.color}70, 0 0 72px ${agent.color}25`,
+                    border: "2px solid rgba(255,255,255,0.15)",
+                  }}
                 >
-                  {agent.status === "ceo" ? "CEO" : t("Ativo", "Active")}
+                  <span className="text-white font-display font-bold text-2xl select-none">{agent.symbol}</span>
+                </div>
+                <span className="text-[10px] sm:text-xs text-zinc-400 text-center font-medium max-w-[90px] leading-tight">
+                  {t(agent.funcPt, agent.funcEn)}
                 </span>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

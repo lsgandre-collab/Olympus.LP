@@ -17,7 +17,10 @@ function escapeHtml(s: string): string {
 export async function submitWaitlist(prev: WaitlistState, formData: FormData): Promise<WaitlistState> {
   const name = formData.get("name") as string | null;
   const email = formData.get("email") as string | null;
-  const whyAmazon = formData.get("why_amazon") as string | null;
+  const phone = formData.get("phone") as string | null;
+  const revenueTotal = formData.get("revenue_total") as string | null;
+  const revenueMonthly = formData.get("revenue_monthly") as string | null;
+  const growthBlocker = formData.get("growth_blocker") as string | null;
   const lang = (formData.get("lang") as string | null) || "pt";
   const isEn = lang === "en";
 
@@ -52,17 +55,27 @@ export async function submitWaitlist(prev: WaitlistState, formData: FormData): P
           from: fromEmail,
           to: toEmail,
           subject: `[Olympus Waitlist] ${escapeHtml(name.trim())}`,
-          html: `<p><strong>Nome / Name:</strong> ${escapeHtml(name.trim())}</p><p><strong>Email:</strong> ${escapeHtml(email.trim())}</p><p><strong>Por que vende na Amazon / Why do you sell on Amazon:</strong></p><p>${escapeHtml((whyAmazon ?? "").trim() || "-")}</p>`,
+          html: [
+            `<p><strong>Nome / Name:</strong> ${escapeHtml(name.trim())}</p>`,
+            `<p><strong>Email:</strong> ${escapeHtml(email.trim())}</p>`,
+            `<p><strong>Telefone / Phone:</strong> ${escapeHtml((phone ?? "").trim() || "-")}</p>`,
+            `<p><strong>Faturamento Total / Total Revenue:</strong> ${escapeHtml((revenueTotal ?? "").trim() || "-")}</p>`,
+            `<p><strong>Faturamento Mensal / Monthly Revenue:</strong> ${escapeHtml((revenueMonthly ?? "").trim() || "-")}</p>`,
+            `<p><strong>O que falta para crescer / Growth blocker:</strong></p>`,
+            `<p>${escapeHtml((growthBlocker ?? "").trim() || "-")}</p>`,
+          ].join(""),
         });
       } catch (resendError) {
         console.error("Resend send failed (signup still recorded):", resendError);
-        // Não falha a página: usuário vê sucesso; e-mail só não foi enviado
       }
     } else {
       console.log("Waitlist signup (set RESEND_API_KEY + WAITLIST_EMAIL to receive emails):", {
         name: name.trim(),
         email: email.trim(),
-        whyAmazon: whyAmazon?.trim() ?? "",
+        phone: phone?.trim() ?? "",
+        revenueTotal: revenueTotal?.trim() ?? "",
+        revenueMonthly: revenueMonthly?.trim() ?? "",
+        growthBlocker: growthBlocker?.trim() ?? "",
       });
     }
 
