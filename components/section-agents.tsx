@@ -18,8 +18,8 @@ const AGENTS = [
 
 function getInitialPositions() {
   const positions: { x: number; y: number }[] = [];
-  const angles = [0, 35, 65, 110, 150, 190, 230, 280, 315, 350];
-  const radii = [42, 38, 44, 36, 40, 46, 39, 43, 41, 37];
+  const angles = [0, 36, 72, 108, 144, 180, 216, 252, 288, 324];
+  const radii = [38, 38, 38, 38, 38, 38, 38, 38, 38, 38];
   angles.forEach((angle, i) => {
     const rad = (angle * Math.PI) / 180;
     positions.push({ x: 50 + radii[i] * Math.cos(rad), y: 50 + radii[i] * Math.sin(rad) });
@@ -42,8 +42,10 @@ function DraggableAgent({
   position,
   index,
   isHovered,
+  isSelected,
   isDragging,
   onHover,
+  onClick,
   onDragStart,
   lang,
 }: {
@@ -51,73 +53,138 @@ function DraggableAgent({
   position: { x: number; y: number };
   index: number;
   isHovered: boolean;
+  isSelected: boolean;
   isDragging: boolean;
   onHover: (index: number | null) => void;
+  onClick: (index: number) => void;
   onDragStart: (index: number, e: React.MouseEvent | React.TouchEvent) => void;
   lang: string;
 }) {
+  const active = isHovered || isSelected;
+  const didDragRef = useRef(false);
+  const startPosRef = useRef<{ x: number; y: number } | null>(null);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    didDragRef.current = false;
+    startPosRef.current = { x: e.clientX, y: e.clientY };
+    onDragStart(index, e);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    didDragRef.current = false;
+    startPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    onDragStart(index, e);
+  };
+
+  const handleMouseUp = () => {
+    if (!didDragRef.current) {
+      onClick(index);
+    }
+  };
+
   return (
     <div
-      className={`absolute -translate-x-1/2 -translate-y-1/2 group transition-all ${isDragging ? "duration-0 cursor-grabbing z-30" : "duration-300 cursor-grab z-20"}`}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 group ${isDragging ? "duration-0 cursor-grabbing z-30" : "cursor-grab z-20"}`}
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
+        transition: isDragging ? "none" : "left 0.3s ease, top 0.3s ease",
       }}
       onMouseEnter={() => !isDragging && onHover(index)}
       onMouseLeave={() => !isDragging && onHover(null)}
-      onMouseDown={(e) => onDragStart(index, e)}
-      onTouchStart={(e) => onDragStart(index, e)}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
     >
-      {/* Ripple ring on hover */}
+      {/* Pulse ring animation (always visible, slow breathing) */}
       <div
-        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500"
+        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
-          width: isHovered ? 110 : 72,
-          height: isHovered ? 110 : 72,
+          width: 90,
+          height: 90,
           left: "50%",
           top: "50%",
           border: `2px solid ${agent.color}`,
-          opacity: isHovered ? 0.3 : 0,
-          animation: isHovered ? "agent-ripple 1.5s ease-out infinite" : "none",
+          opacity: active ? 0.5 : 0.15,
+          animation: "agent-breathe 3s ease-in-out infinite",
+          animationDelay: `${index * 0.3}s`,
         }}
       />
 
-      {/* Main orb */}
+      {/* Outer glow ring on hover/select */}
+      {active && (
+        <div
+          className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            width: 110,
+            height: 110,
+            left: "50%",
+            top: "50%",
+            border: `1.5px solid ${agent.color}`,
+            animation: "agent-ripple 1.5s ease-out infinite",
+          }}
+        />
+      )}
+
+      {/* Main orb with constant glow */}
       <div
-        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center transition-all duration-300"
+        className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center"
         style={{
           left: "50%",
           top: "50%",
-          width: isHovered ? 80 : 72,
-          height: isHovered ? 80 : 72,
+          width: active ? 76 : 68,
+          height: active ? 76 : 68,
           backgroundColor: agent.color,
-          boxShadow: isHovered || isDragging
-            ? `0 0 48px ${agent.color}99, 0 0 96px ${agent.color}44, inset 0 0 24px rgba(255,255,255,0.2)`
-            : `0 0 36px ${agent.color}70, 0 0 72px ${agent.color}25`,
-          border: isHovered ? "2px solid rgba(255,255,255,0.5)" : "2px solid rgba(255,255,255,0.15)",
-          transform: isHovered && !isDragging ? "scale(1.1)" : "scale(1)",
+          boxShadow: active
+            ? `0 0 50px ${agent.color}aa, 0 0 100px ${agent.color}55, inset 0 0 20px rgba(255,255,255,0.25)`
+            : `0 0 30px ${agent.color}66, 0 0 60px ${agent.color}22`,
+          border: active ? "2px solid rgba(255,255,255,0.5)" : "2px solid rgba(255,255,255,0.15)",
+          transition: "all 0.3s ease",
+          animation: isDragging ? "none" : `agent-float ${3 + index * 0.2}s ease-in-out infinite`,
+          animationDelay: `${index * 0.5}s`,
         }}
       >
-        <span className="text-white font-display font-bold text-2xl select-none">{agent.symbol}</span>
+        <span className="text-white font-display font-bold text-2xl select-none drop-shadow-lg">{agent.symbol}</span>
       </div>
 
-      {/* Label */}
+      {/* Label — always visible, well centered */}
       <div
-        className="absolute top-full mt-4 text-center whitespace-nowrap transition-all duration-300 pointer-events-none"
+        className="absolute text-center whitespace-nowrap pointer-events-none"
         style={{
           left: "50%",
+          top: "calc(50% + 48px)",
           transform: "translateX(-50%)",
-          opacity: isHovered ? 1 : 0.7,
+          transition: "all 0.3s ease",
         }}
       >
-        <span className={`${isHovered ? "text-white font-semibold text-sm" : "text-white text-xs"}`}>
+        <span
+          className="text-white font-semibold text-xs block"
+          style={{
+            textShadow: "0 1px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7)",
+          }}
+        >
           {agent.name}
         </span>
-        {isHovered && (
-          <p className="text-[10px] text-zinc-300 mt-1 max-w-[140px] mx-auto">
+
+        {/* Function text — shown on hover or click */}
+        <div
+          className="overflow-hidden transition-all duration-300"
+          style={{
+            maxHeight: active ? 40 : 0,
+            opacity: active ? 1 : 0,
+          }}
+        >
+          <p
+            className="text-[10px] mt-1 max-w-[140px] mx-auto leading-tight px-2 py-1 rounded-md"
+            style={{
+              color: agent.color,
+              backgroundColor: "rgba(0,0,0,0.7)",
+              textShadow: `0 0 10px ${agent.color}66`,
+            }}
+          >
             {lang === "pt" ? agent.funcPt : agent.funcEn}
           </p>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -127,14 +194,21 @@ export function SectionAgents() {
   const { t, lang } = useLang();
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredAgent, setHoveredAgent] = useState<number | null>(null);
+  const [selectedAgent, setSelectedAgent] = useState<number | null>(null);
   const [positions, setPositions] = useState(getInitialPositions);
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
+  const hasDraggedRef = useRef(false);
   const connections = getConnections();
+
+  const handleClick = useCallback((index: number) => {
+    setSelectedAgent((prev) => (prev === index ? null : index));
+  }, []);
 
   const handleDragStart = useCallback((index: number, e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setDraggingIndex(index);
+    hasDraggedRef.current = false;
     const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     dragStartRef.current = { x: clientX, y: clientY };
@@ -148,10 +222,20 @@ export function SectionAgents() {
       const rect = containerRef.current.getBoundingClientRect();
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+      // Check if actually dragged (more than 5px)
+      if (dragStartRef.current) {
+        const dx = clientX - dragStartRef.current.x;
+        const dy = clientY - dragStartRef.current.y;
+        if (Math.sqrt(dx * dx + dy * dy) > 5) {
+          hasDraggedRef.current = true;
+        }
+      }
+
       const newX = ((clientX - rect.left) / rect.width) * 100;
       const newY = ((clientY - rect.top) / rect.height) * 100;
-      const clampedX = Math.max(5, Math.min(95, newX));
-      const clampedY = Math.max(5, Math.min(95, newY));
+      const clampedX = Math.max(8, Math.min(92, newX));
+      const clampedY = Math.max(8, Math.min(92, newY));
       setPositions((prev) => {
         const next = [...prev];
         next[draggingIndex] = { x: clampedX, y: clampedY };
@@ -160,6 +244,10 @@ export function SectionAgents() {
     };
 
     const handleEnd = () => {
+      if (!hasDraggedRef.current && draggingIndex !== null) {
+        // It was a click, not a drag
+        setSelectedAgent((prev) => (prev === draggingIndex ? null : draggingIndex));
+      }
       setDraggingIndex(null);
       dragStartRef.current = null;
     };
@@ -194,8 +282,8 @@ export function SectionAgents() {
               "10 specialized AI agents, connected by data lines and working 24/7 for your business."
             )}
           </p>
-          <p className="mt-2 text-xs text-zinc-600 hidden md:block">
-            {t("Arraste os agentes para explorar as conexões", "Drag the agents to explore the connections")}
+          <p className="mt-2 text-xs text-zinc-500 hidden md:block">
+            {t("Arraste ou clique nos agentes para explorar", "Drag or click agents to explore")}
           </p>
         </div>
 
@@ -210,40 +298,50 @@ export function SectionAgents() {
               </linearGradient>
             </defs>
 
-            {/* Secondary connections */}
-            {connections.secondary.map(([a, b], i) => (
-              <line
-                key={`s-${i}`}
-                x1={positions[a].x} y1={positions[a].y}
-                x2={positions[b].x} y2={positions[b].y}
-                stroke={hoveredAgent === a || hoveredAgent === b ? AGENTS[a].color : "#14b8a6"}
-                strokeWidth={hoveredAgent === a || hoveredAgent === b ? "0.35" : "0.2"}
-                strokeOpacity={hoveredAgent === a || hoveredAgent === b ? 0.5 : 0.25}
-                filter="url(#glow-soft)"
-                style={{ transition: "all 300ms ease" }}
-              />
-            ))}
-
-            {/* Primary connections to center */}
-            {connections.primary.map((idx, i) => {
-              const isH = hoveredAgent === idx || draggingIndex === idx;
+            {/* Secondary connections (agent ring) */}
+            {connections.secondary.map(([a, b], i) => {
+              const isActive = hoveredAgent === a || hoveredAgent === b || selectedAgent === a || selectedAgent === b;
               return (
                 <line
-                  key={`p-${i}`}
-                  x1={positions[idx].x} y1={positions[idx].y}
-                  x2={50} y2={50}
-                  stroke={isH ? AGENTS[idx].color : "#14b8a6"}
-                  strokeWidth={isH ? "0.5" : "0.3"}
-                  strokeOpacity={isH ? 0.7 : 0.4}
-                  filter="url(#glow-bright)"
-                  style={{ transition: draggingIndex === idx ? "none" : "all 300ms ease" }}
+                  key={`s-${i}`}
+                  x1={positions[a].x} y1={positions[a].y}
+                  x2={positions[b].x} y2={positions[b].y}
+                  stroke={isActive ? AGENTS[a].color : "#14b8a6"}
+                  strokeWidth={isActive ? "0.4" : "0.2"}
+                  strokeOpacity={isActive ? 0.6 : 0.2}
+                  filter="url(#glow-soft)"
+                  style={{ transition: draggingIndex !== null ? "none" : "all 300ms ease" }}
                 />
               );
             })}
 
-            {/* Central node */}
-            <circle cx="50" cy="50" r="4" fill="url(#orch-gradient)" filter="url(#glow-bright)" style={{ animation: "pulse-orchestrator 2s ease-in-out infinite" }} />
-            <text x="50" y="50" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="2.5" fontWeight="bold" fontFamily="serif" style={{ pointerEvents: "none" }}>Ω</text>
+            {/* Primary connections to center (data lines with animated dash) */}
+            {connections.primary.map((idx) => {
+              const isActive = hoveredAgent === idx || selectedAgent === idx || draggingIndex === idx;
+              return (
+                <line
+                  key={`p-${idx}`}
+                  x1={positions[idx].x} y1={positions[idx].y}
+                  x2={50} y2={50}
+                  stroke={isActive ? AGENTS[idx].color : "#14b8a6"}
+                  strokeWidth={isActive ? "0.5" : "0.25"}
+                  strokeOpacity={isActive ? 0.8 : 0.35}
+                  strokeDasharray={isActive ? "none" : "1 1.5"}
+                  filter="url(#glow-bright)"
+                  style={{ transition: draggingIndex === idx ? "none" : "all 300ms ease" }}
+                >
+                  {!isActive && (
+                    <animate attributeName="stroke-dashoffset" from="0" to="5" dur="3s" repeatCount="indefinite" />
+                  )}
+                </line>
+              );
+            })}
+
+            {/* Central ATLAS node */}
+            <circle cx="50" cy="50" r="4.5" fill="url(#orch-gradient)" filter="url(#glow-bright)" style={{ animation: "pulse-orchestrator 2s ease-in-out infinite" }} />
+            <circle cx="50" cy="50" r="6" fill="none" stroke="url(#orch-gradient)" strokeWidth="0.3" strokeOpacity="0.4" style={{ animation: "atlas-ring 3s ease-in-out infinite" }} />
+            <text x="50" y="50" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="3" fontWeight="bold" fontFamily="serif" style={{ pointerEvents: "none" }}>Ω</text>
+            <text x="50" y="56" textAnchor="middle" fill="white" fontSize="1.5" fontWeight="600" style={{ pointerEvents: "none" }} opacity="0.8">ATLAS</text>
           </svg>
 
           {/* Draggable agent nodes */}
@@ -254,13 +352,16 @@ export function SectionAgents() {
               position={positions[i]}
               index={i}
               isHovered={hoveredAgent === i}
+              isSelected={selectedAgent === i}
               isDragging={draggingIndex === i}
               onHover={setHoveredAgent}
+              onClick={handleClick}
               onDragStart={handleDragStart}
               lang={lang}
             />
           ))}
 
+          {/* Amazon badge at bottom */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-800/60 border border-zinc-700/60 backdrop-blur-sm">
               <div className="w-3 h-3 rounded-full bg-gradient-to-br from-orange-400 to-orange-600" />
@@ -269,28 +370,39 @@ export function SectionAgents() {
           </div>
         </div>
 
-        {/* Mobile — scrollable row with cards */}
+        {/* Mobile — scrollable cards with tap for function */}
         <div className="md:hidden">
           <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide px-2">
             {AGENTS.map((agent, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 w-[160px] snap-center flex flex-col items-center gap-3 p-5 rounded-xl border border-zinc-700/40 bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300"
+                className="flex-shrink-0 w-[170px] snap-center flex flex-col items-center gap-3 p-5 rounded-xl border border-zinc-700/40 bg-zinc-800/30 transition-all duration-300"
                 style={{
-                  boxShadow: `0 0 20px ${agent.color}15`,
+                  boxShadow: `0 0 25px ${agent.color}20`,
+                  animation: `agent-float ${3 + i * 0.15}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.4}s`,
                 }}
               >
                 <div
-                  className="rounded-full flex items-center justify-center"
+                  className="rounded-full flex items-center justify-center relative"
                   style={{
-                    width: 60,
-                    height: 60,
+                    width: 64,
+                    height: 64,
                     backgroundColor: agent.color,
-                    boxShadow: `0 0 30px ${agent.color}60`,
+                    boxShadow: `0 0 35px ${agent.color}70`,
                     border: "2px solid rgba(255,255,255,0.2)",
                   }}
                 >
                   <span className="text-white font-display font-bold text-xl">{agent.symbol}</span>
+                  {/* breathing ring */}
+                  <div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      border: `1.5px solid ${agent.color}`,
+                      animation: "agent-breathe 3s ease-in-out infinite",
+                      animationDelay: `${i * 0.3}s`,
+                    }}
+                  />
                 </div>
                 <span className="text-sm text-white font-semibold">{agent.name}</span>
                 <span className="text-[11px] text-zinc-400 text-center leading-tight">
@@ -306,11 +418,23 @@ export function SectionAgents() {
       <style>{`
         @keyframes pulse-orchestrator {
           0%, 100% { filter: drop-shadow(0 0 12px rgba(20,184,166,0.8)); }
-          50% { filter: drop-shadow(0 0 28px rgba(20,184,166,1)); }
+          50% { filter: drop-shadow(0 0 30px rgba(20,184,166,1)); }
+        }
+        @keyframes atlas-ring {
+          0%, 100% { r: 6; opacity: 0.3; }
+          50% { r: 7.5; opacity: 0.6; }
+        }
+        @keyframes agent-breathe {
+          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+          50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.35; }
         }
         @keyframes agent-ripple {
-          0% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-          100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
+          0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+          100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+        @keyframes agent-float {
+          0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+          50% { transform: translate(-50%, -50%) translateY(-4px); }
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

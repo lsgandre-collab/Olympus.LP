@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useLang } from "@/contexts/lang-context";
 
 const TEAM_ROLES = [
@@ -16,6 +17,10 @@ const TOTAL_COST = TEAM_ROLES.reduce((sum, role) => sum + role.cost, 0);
 
 export function SectionComparison() {
   const { t } = useLang();
+  const [showROI, setShowROI] = useState(false);
+  const [skus, setSkus] = useState(500);
+  const [monthlyRevenue, setMonthlyRevenue] = useState(500000);
+  const [employees, setEmployees] = useState(5);
 
   return (
     <section id="comparativo" className="section-padding">
@@ -220,16 +225,233 @@ export function SectionComparison() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-colors">
+              <button
+                onClick={() => setShowROI(true)}
+                className="px-8 py-3 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-semibold transition-colors"
+              >
                 {t("Calcular Seu ROI", "Calculate Your ROI")}
               </button>
-              <button className="px-8 py-3 rounded-lg border border-zinc-700 hover:border-zinc-600 text-white font-semibold transition-colors">
+              <a
+                href="https://wa.me/5511999999999?text=Olá! Quero saber mais sobre o OLYMPUS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 rounded-lg border border-zinc-700 hover:border-zinc-600 text-white font-semibold transition-colors text-center"
+              >
                 {t("Falar com Especialista", "Talk to Specialist")}
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ROI Calculator Modal */}
+      {showROI && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowROI(false)}
+        >
+          {/* Backdrop with blur */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+          {/* Modal Content */}
+          <div
+            className="relative bg-zinc-900 border border-zinc-800 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowROI(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="mb-8">
+              <h2 className="font-display text-3xl font-bold text-white mb-2">
+                {t("Calculadora de ROI", "ROI Calculator")}
+              </h2>
+              <p className="text-zinc-400">
+                {t(
+                  "Descubra quanto você pode economizar com OLYMPUS",
+                  "Discover how much you can save with OLYMPUS"
+                )}
+              </p>
+            </div>
+
+            {/* Sliders */}
+            <div className="space-y-8 mb-10">
+              {/* SKUs Slider */}
+              <div>
+                <label className="text-sm font-semibold text-white mb-3 block">
+                  {t("SKUs em Operação", "SKUs in Operation")}: <span className="text-teal-400">{skus.toLocaleString("pt-BR")}</span>
+                </label>
+                <input
+                  type="range"
+                  min="50"
+                  max="5000"
+                  value={skus}
+                  onChange={(e) => setSkus(Number(e.target.value))}
+                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-600"
+                />
+                <div className="flex justify-between text-xs text-zinc-500 mt-2">
+                  <span>50</span>
+                  <span>5.000</span>
+                </div>
+              </div>
+
+              {/* Monthly Revenue Slider */}
+              <div>
+                <label className="text-sm font-semibold text-white mb-3 block">
+                  {t("Receita Mensal", "Monthly Revenue")}: <span className="text-teal-400">R$ {monthlyRevenue.toLocaleString("pt-BR")}</span>
+                </label>
+                <input
+                  type="range"
+                  min="10000"
+                  max="2000000"
+                  value={monthlyRevenue}
+                  onChange={(e) => setMonthlyRevenue(Number(e.target.value))}
+                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-600"
+                />
+                <div className="flex justify-between text-xs text-zinc-500 mt-2">
+                  <span>R$ 10k</span>
+                  <span>R$ 2M</span>
+                </div>
+              </div>
+
+              {/* Employees Slider */}
+              <div>
+                <label className="text-sm font-semibold text-white mb-3 block">
+                  {t("Operadores em Equipe", "Employees in Operations")}: <span className="text-teal-400">{employees}</span>
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="15"
+                  value={employees}
+                  onChange={(e) => setEmployees(Number(e.target.value))}
+                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-600"
+                />
+                <div className="flex justify-between text-xs text-zinc-500 mt-2">
+                  <span>0</span>
+                  <span>15</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ROI Calculations */}
+            <ROIResults
+              skus={skus}
+              monthlyRevenue={monthlyRevenue}
+              employees={employees}
+              t={t}
+            />
+          </div>
+        </div>
+      )}
     </section>
+  );
+}
+
+function ROIResults({ skus, monthlyRevenue, employees, t }: any) {
+  // Calculate OLYMPUS cost
+  const olympusCost = Math.max(2000, monthlyRevenue * 0.015);
+
+  // Calculate savings
+  const teamSavings = employees * 5000 - olympusCost;
+  const marginIncrease = monthlyRevenue * 0.21;
+  const adsSavings = monthlyRevenue * 0.08;
+  const totalROI = teamSavings + marginIncrease + adsSavings;
+
+  // ROI percentage (compared to OLYMPUS cost)
+  const roiPercentage = Math.round((totalROI / olympusCost) * 100);
+
+  return (
+    <div className="space-y-8">
+      {/* Results Grid */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* Team Savings - Green */}
+        <div className="p-4 rounded-lg bg-emerald-950/40 border border-emerald-600/40">
+          <p className="text-xs font-semibold text-emerald-300 uppercase tracking-wide mb-2">
+            {t("Economia em Equipe", "Team Savings")}
+          </p>
+          <p className="font-display text-2xl font-bold text-emerald-400">
+            R$ {Math.max(0, teamSavings).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}
+          </p>
+          <p className="text-xs text-zinc-400 mt-1">
+            {t("por mês", "per month")}
+          </p>
+        </div>
+
+        {/* Margin Increase - Teal */}
+        <div className="p-4 rounded-lg bg-teal-950/40 border border-teal-600/40">
+          <p className="text-xs font-semibold text-teal-300 uppercase tracking-wide mb-2">
+            {t("Aumento de Margem", "Margin Increase")}
+          </p>
+          <p className="font-display text-2xl font-bold text-teal-400">
+            R$ {marginIncrease.toLocaleString("pt-BR", { maximumFractionDigits: 0 })}
+          </p>
+          <p className="text-xs text-zinc-400 mt-1">
+            {t("por mês", "per month")}
+          </p>
+        </div>
+
+        {/* Ads Savings - Yellow */}
+        <div className="p-4 rounded-lg bg-amber-950/40 border border-amber-600/40">
+          <p className="text-xs font-semibold text-amber-300 uppercase tracking-wide mb-2">
+            {t("Economia em Anúncios", "Ads Savings")}
+          </p>
+          <p className="font-display text-2xl font-bold text-amber-400">
+            R$ {adsSavings.toLocaleString("pt-BR", { maximumFractionDigits: 0 })}
+          </p>
+          <p className="text-xs text-zinc-400 mt-1">
+            {t("por mês", "per month")}
+          </p>
+        </div>
+
+        {/* OLYMPUS Investment - Zinc */}
+        <div className="p-4 rounded-lg bg-zinc-800/40 border border-zinc-600/40">
+          <p className="text-xs font-semibold text-zinc-300 uppercase tracking-wide mb-2">
+            {t("Investimento OLYMPUS", "OLYMPUS Investment")}
+          </p>
+          <p className="font-display text-2xl font-bold text-zinc-300">
+            R$ {olympusCost.toLocaleString("pt-BR", { maximumFractionDigits: 0 })}
+          </p>
+          <p className="text-xs text-zinc-400 mt-1">
+            {t("por mês", "per month")}
+          </p>
+        </div>
+      </div>
+
+      {/* ROI Percentage - Large Display with Gradient */}
+      <div className="rounded-lg bg-gradient-to-r from-teal-600/20 to-emerald-600/20 border border-teal-600/40 p-6 text-center">
+        <p className="text-sm font-semibold text-teal-300 uppercase tracking-wide mb-2">
+          {t("Retorno sobre Investimento", "Return on Investment")}
+        </p>
+        <div className="font-display text-5xl font-bold bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
+          {roiPercentage}%
+        </div>
+        <p className="text-sm text-zinc-400 mt-3">
+          {t(
+            "Retorno total em relação ao investimento mensal",
+            "Total return relative to monthly investment"
+          )}
+        </p>
+      </div>
+
+      {/* Summary */}
+      <div className="p-4 rounded-lg bg-zinc-800/30 border border-zinc-700/50">
+        <p className="text-sm text-zinc-300">
+          {t(
+            "Com OLYMPUS, você economizará ",
+            "With OLYMPUS, you will save "
+          )}
+          <span className="font-bold text-teal-400">
+            R$ {totalROI.toLocaleString("pt-BR", { maximumFractionDigits: 0 })}
+          </span>
+          {t(" por mês.", " per month.")}
+        </p>
+      </div>
+    </div>
   );
 }
