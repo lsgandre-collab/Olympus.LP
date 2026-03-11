@@ -5,41 +5,41 @@ import { useLang } from "@/contexts/lang-context";
 
 const PACKAGES = [
   {
-    name: "Bronze",
-    subtitle: "Héracles",
-    subtitleEn: "Heracles",
+    name: "Semi-Deus",
+    subtitle: "A força para começar",
+    subtitleEn: "The strength to begin",
     color: "#cd7f32",
     descPt: "A força para começar. Ideal para sellers em crescimento.",
     descEn: "The strength to begin. Ideal for growing sellers.",
     pricePt: "Sob consulta",
     priceEn: "On request",
-    featuresPt: ["Até 500 SKUs", "5 agentes ativos", "Dashboard básico", "Suporte por e-mail", "Relatórios semanais"],
-    featuresEn: ["Up to 500 SKUs", "5 active agents", "Basic dashboard", "Email support", "Weekly reports"],
+    featuresPt: ["Até 500 SKUs", "5 agentes ativos", "Dashboard básico", "Relatórios semanais", "Suporte por e-mail", "Modo recomendação"],
+    featuresEn: ["Up to 500 SKUs", "5 active agents", "Basic dashboard", "Weekly reports", "Email support", "Recommendation mode"],
   },
   {
-    name: "Silver",
-    subtitle: "Atena",
-    subtitleEn: "Athena",
+    name: "Mitológico",
+    subtitle: "Sabedoria que domina",
+    subtitleEn: "Wisdom that dominates",
     color: "#c0c0c0",
     descPt: "Sabedoria estratégica. O plano mais escolhido.",
     descEn: "Strategic wisdom. The most chosen plan.",
     pricePt: "Sob consulta",
     priceEn: "On request",
     highlight: true,
-    featuresPt: ["Até 2.000 SKUs", "10 agentes ativos", "Dashboard completo", "Orquestrador WhatsApp + Telegram", "Relatórios diários", "Suporte prioritário"],
-    featuresEn: ["Up to 2,000 SKUs", "10 active agents", "Full dashboard", "Orchestrator WhatsApp + Telegram", "Daily reports", "Priority support"],
+    featuresPt: ["Até 2.000 SKUs", "10 agentes ativos", "Dashboard completo", "Orquestrador WhatsApp + Telegram", "Relatórios diários", "Suporte prioritário", "Automação parcial com aprovação"],
+    featuresEn: ["Up to 2,000 SKUs", "10 active agents", "Full dashboard", "Orchestrator WhatsApp + Telegram", "Daily reports", "Priority support", "Partial automation with approval"],
   },
   {
-    name: "Gold",
-    subtitle: "Zeus",
-    subtitleEn: "Zeus",
+    name: "Titã",
+    subtitle: "Poder absoluto",
+    subtitleEn: "Absolute power",
     color: "#eab308",
     descPt: "Poder absoluto. Para quem domina o marketplace.",
     descEn: "Absolute power. For those who dominate the marketplace.",
     pricePt: "Sob consulta",
     priceEn: "On request",
-    featuresPt: ["SKUs ilimitados", "10 agentes + customizados", "Dashboard + API", "Orquestrador multicanal", "Relatórios em tempo real", "Gerente de conta dedicado", "Onboarding white-glove"],
-    featuresEn: ["Unlimited SKUs", "10 agents + custom", "Dashboard + API", "Multi-channel orchestrator", "Real-time reports", "Dedicated account manager", "White-glove onboarding"],
+    featuresPt: ["SKUs ilimitados", "10 agentes + customizados", "Dashboard + API", "Orquestrador multicanal", "Relatórios em tempo real", "Automação total com guardrails", "Onboarding dedicado"],
+    featuresEn: ["Unlimited SKUs", "10 agents + custom", "Dashboard + API", "Multi-channel orchestrator", "Real-time reports", "Full automation with guardrails", "Dedicated onboarding"],
   },
 ];
 
@@ -47,7 +47,7 @@ export function SectionPackages() {
   const { t, lang } = useLang();
   const ft = (pt: string[], en: string[]) => lang === "en" ? en : pt;
   return (
-    <section id="pacotes" className="section-padding border-t border-zinc-800/80">
+    <section id="pacotes" className="section-padding">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-5xl">{t("Pacotes", "Packages")}</h2>
@@ -87,6 +87,11 @@ export function SectionPackages() {
               </Link>
             </div>
           ))}
+        </div>
+        <div className="mt-16 text-center">
+          <div className="inline-block bg-teal-500/10 border border-teal-500/30 rounded-lg px-4 py-2 mb-4">
+            <p className="text-sm text-teal-400 font-medium">{t("Pague de acordo com o seu tamanho. Cobramos de acordo com o faturamento e uso real da ferramenta — sem surpresas.", "Pay according to your size. We charge based on revenue and actual tool usage — no surprises.")}</p>
+          </div>
         </div>
       </div>
     </section>

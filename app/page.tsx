@@ -5,6 +5,7 @@ import { SectionAgents } from "@/components/section-agents";
 import { SectionOrchestrator } from "@/components/section-orchestrator";
 import { SectionDashboard } from "@/components/section-dashboard";
 import { SectionResults } from "@/components/section-results";
+import { SectionComparison } from "@/components/section-comparison";
 import { SectionHowItWorks } from "@/components/section-how-it-works";
 import { SectionPackages } from "@/components/section-packages";
 import { SectionFAQ } from "@/components/section-faq";
@@ -12,6 +13,7 @@ import { Waitlist } from "@/components/waitlist";
 import { Footer } from "@/components/footer";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { GlobalDots } from "@/components/global-dots";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export default function HomePage() {
   return (
@@ -36,6 +38,9 @@ export default function HomePage() {
           <SectionResults />
         </ScrollReveal>
         <ScrollReveal>
+          <SectionComparison />
+        </ScrollReveal>
+        <ScrollReveal>
           <SectionHowItWorks />
         </ScrollReveal>
         <ScrollReveal>
@@ -48,6 +53,7 @@ export default function HomePage() {
           <Waitlist />
         </ScrollReveal>
         <Footer />
+        <WhatsAppButton />
       </main>
     </>
   );

@@ -40,6 +40,24 @@ const FAQS = [
     aPt: "Ferramentas tradicionais resolvem um problema de cada vez. O OLYMPUS é um sistema operacional completo com 10 agentes especializados que se comunicam entre si e tomam decisões coordenadas pelo Orquestrador central — como ter uma equipe inteira de especialistas trabalhando 24/7.",
     aEn: "Traditional tools solve one problem at a time. OLYMPUS is a complete operating system with 10 specialized agents that communicate with each other and make decisions coordinated by the central Orchestrator — like having an entire team of specialists working 24/7.",
   },
+  {
+    qPt: "A plataforma é hospedada em servidor próprio?",
+    qEn: "Is the platform hosted on its own server?",
+    aPt: "Sim. O OLYMPUS roda em infraestrutura própria e dedicada, sem dependência de servidores externos ou terceiros. Seus dados ficam isolados e protegidos em ambiente exclusivo com criptografia de ponta a ponta.",
+    aEn: "Yes. OLYMPUS runs on its own dedicated infrastructure, with no dependency on external or third-party servers. Your data stays isolated and protected in an exclusive environment with end-to-end encryption.",
+  },
+  {
+    qPt: "Vocês têm acesso aos meus dados bancários?",
+    qEn: "Do you have access to my banking data?",
+    aPt: "Não. O OLYMPUS nunca acessa, armazena ou processa dados bancários. Para pagamentos, utilizamos um gateway de pagamento certificado (PCI DSS) que capta e armazena os dados financeiros de forma totalmente independente. Nós só recebemos confirmação de pagamento.",
+    aEn: "No. OLYMPUS never accesses, stores, or processes banking data. For payments, we use a certified payment gateway (PCI DSS) that captures and stores financial data completely independently. We only receive payment confirmation.",
+  },
+  {
+    qPt: "Como funciona a segurança dos dados da minha conta Amazon?",
+    qEn: "How does my Amazon account data security work?",
+    aPt: "A conexão com o Seller Central é feita via API oficial da Amazon com tokens OAuth de acesso limitado. Não temos acesso à sua senha. Os dados são transmitidos e armazenados com criptografia AES-256 e acesso restrito por políticas de zero-trust.",
+    aEn: "The connection to Seller Central is made via Amazon's official API with limited-access OAuth tokens. We don't have access to your password. Data is transmitted and stored with AES-256 encryption and access restricted by zero-trust policies.",
+  },
 ];
 
 function FaqItem({ q, a }: { q: string; a: string }) {
@@ -73,7 +91,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 export function SectionFAQ() {
   const { t } = useLang();
   return (
-    <section id="faq" className="py-20 md:py-28 border-t border-zinc-800/80">
+    <section id="faq" className="py-20 md:py-28">
       <div className="mx-auto max-w-3xl px-6">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-5xl">

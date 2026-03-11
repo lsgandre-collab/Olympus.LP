@@ -12,7 +12,7 @@ const PAINS = [
 export function SectionProblem() {
   const { t } = useLang();
   return (
-    <section id="problema" className="section-padding border-t border-zinc-800/80">
+    <section id="problema" className="section-padding">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl font-bold tracking-tight text-white md:text-5xl">{t("O Problema", "The Problem")}</h2>

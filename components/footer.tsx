@@ -16,7 +16,7 @@ const LINKS = [
 export function Footer() {
   const { t } = useLang();
   return (
-    <footer className="border-t border-zinc-800/80 bg-zinc-950 py-12">
+    <footer className="border-t border-zinc-800/30 bg-zinc-950 py-12">
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <p className="font-display text-sm font-semibold text-white">OLYMPUS — {t("Multi-Agent Seller OS", "Multi-Agent Seller OS")}</p>

@@ -21,7 +21,7 @@ export function Waitlist() {
 
   if (submitted) {
     return (
-      <section id="waitlist" className="section-padding border-t border-zinc-800/80">
+      <section id="waitlist" className="section-padding">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <h2 className="font-display text-3xl font-bold text-white md:text-4xl">{t("Obrigado!", "Thank you!")}</h2>
           <p className="mt-6 text-lg text-zinc-400">{t("Sua vaga na waitlist foi reservada. Em breve entraremos em contato.", "Your spot on the waitlist is reserved. We'll be in touch soon.")}</p>
@@ -31,7 +31,7 @@ export function Waitlist() {
   }
 
   return (
-    <section id="waitlist" className="section-padding border-t border-zinc-800/80">
+    <section id="waitlist" className="section-padding">
       <div className="mx-auto max-w-2xl px-6">
         <div className="text-center mb-10">
           <p className="text-sm font-semibold text-red-400">{t("Apenas vagas limitadas na primeira leva.", "Limited spots in the first wave only.")}</p>
@@ -62,7 +62,7 @@ export function Waitlist() {
             </div>
           </div>
           <div>
-            <label htmlFor="revenue_monthly" className="block text-sm font-medium text-zinc-300 mb-2">{t("Faturamento Mensal na Amazon", "Monthly Amazon Revenue")}</label>
+            <label htmlFor="revenue_monthly" className="block text-sm font-medium text-zinc-300 mb-2">{t("Faturamento Mensal", "Monthly Revenue")}</label>
             <Input id="revenue_monthly" name="revenue_monthly" placeholder={t("Ex: R$ 50.000/mês", "e.g. $50,000/mo")} className="border-zinc-700 bg-zinc-800/50 placeholder:text-zinc-500" />
           </div>
           <div>
