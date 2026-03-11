@@ -27,8 +27,7 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mt-8 mb-4">1. Introdução</h2>
               <p className="text-zinc-300 mb-4">
-                A TwelvePrime ("Empresa", "Nós") está comprometida com a proteção de sua privacidade. Esta Política de Privacidade
-                explica como coletamos, usamos, compartilhamos e protegemos suas informações pessoais quando você usa o OLYMPUS.
+                {`A TwelvePrime ("Empresa", "Nós") está comprometida com a proteção de sua privacidade. Esta Política de Privacidade explica como coletamos, usamos, compartilhamos e protegemos suas informações pessoais quando você usa o OLYMPUS.`}
               </p>
               <p className="text-zinc-300 mb-4">
                 Esta política está em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018) e legislação
@@ -189,7 +188,7 @@ export default function PrivacyPage() {
                 <li><strong>Transparência:</strong> Receber informações sobre coleta e uso de dados</li>
               </ul>
               <p className="text-zinc-300 mb-4">
-                Para exercer estes direitos, contate: legal@twelveprime.com com "Solicitação de Privacidade" no assunto.
+                Para exercer estes direitos, contate: legal@twelveprime.com com {`"Solicitação de Privacidade"`} no assunto.
               </p>
             </section>
 

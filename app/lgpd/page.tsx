@@ -236,7 +236,7 @@ export default function LGPDPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mt-8 mb-4">9. Processadores de Dados</h2>
               <p className="text-zinc-300 mb-4">
-                A TwelvePrime contrata fornecedores terceiros ("Processadores") que processam dados sob nossa instrução:
+                {`A TwelvePrime contrata fornecedores terceiros ("Processadores") que processam dados sob nossa instrução:`}
               </p>
               <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 text-zinc-300 space-y-3 mb-4">
                 <div>
