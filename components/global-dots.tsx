@@ -1,254 +1,129 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function GlobalDots() {
-  const [scrollY, setScrollY] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          ticking = false;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationId: number;
+    let particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      color: string;
+      alpha: number;
+    }> = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    const TEAL = [20, 184, 166];
+    const GOLD = [234, 179, 8];
+    const PARTICLE_COUNT = Math.min(60, Math.floor(window.innerWidth / 25));
+    const CONNECTION_DIST = 150;
+    const MAX_ALPHA = 0.25;
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const useTeal = Math.random() > 0.35;
+        const c = useTeal ? TEAL : GOLD;
+        particles.push({
+          x: Math.random() * canvas!.width,
+          y: Math.random() * canvas!.height,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          size: Math.random() * 1.5 + 0.5,
+          color: `${c[0]},${c[1]},${c[2]}`,
+          alpha: Math.random() * 0.15 + 0.05,
         });
       }
+    }
+
+    function draw() {
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECTION_DIST) {
+            const opacity = (1 - dist / CONNECTION_DIST) * 0.06;
+            ctx!.strokeStyle = `rgba(${particles[i].color},${opacity})`;
+            ctx!.lineWidth = 0.5;
+            ctx!.beginPath();
+            ctx!.moveTo(particles[i].x, particles[i].y);
+            ctx!.lineTo(particles[j].x, particles[j].y);
+            ctx!.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      for (const p of particles) {
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${p.color},${p.alpha})`;
+        ctx!.fill();
+
+        // Subtle glow
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${p.color},${p.alpha * 0.15})`;
+        ctx!.fill();
+      }
+
+      // Update positions
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off edges softly
+        if (p.x < 0 || p.x > canvas!.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas!.height) p.vy *= -1;
+
+        // Gentle alpha breathing
+        p.alpha += (Math.random() - 0.5) * 0.005;
+        p.alpha = Math.max(0.03, Math.min(MAX_ALPHA, p.alpha));
+      }
+
+      animationId = requestAnimationFrame(draw);
+    }
+
+    resize();
+    initParticles();
+    draw();
+
+    window.addEventListener("resize", () => {
+      resize();
+      initParticles();
+    });
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", resize);
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden>
-      {/* Grid mesh background */}
-      <svg
-        className="absolute inset-0 w-full h-full"
-        style={{
-          opacity: 0.05,
-        }}
-        preserveAspectRatio="none"
-        viewBox="0 0 1200 800"
-      >
-        <defs>
-          <linearGradient id="gridGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="#eab308" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.3" />
-          </linearGradient>
-        </defs>
-
-        {/* Vertical grid lines */}
-        {Array.from({ length: 13 }).map((_, i) => (
-          <line
-            key={`v-${i}`}
-            x1={i * 100}
-            y1="0"
-            x2={i * 100}
-            y2="800"
-            stroke="url(#gridGradient)"
-            strokeWidth="0.5"
-            opacity="0.6"
-          />
-        ))}
-
-        {/* Horizontal grid lines */}
-        {Array.from({ length: 9 }).map((_, i) => (
-          <line
-            key={`h-${i}`}
-            x1="0"
-            y1={i * 100}
-            x2="1200"
-            y2={i * 100}
-            stroke="url(#gridGradient)"
-            strokeWidth="0.5"
-            opacity="0.6"
-          />
-        ))}
-      </svg>
-
-      {/* Animated data pulse particles */}
-      <div className="absolute inset-0">
-        {/* Particle 1 - Teal pulse along diagonal path */}
-        <div
-          className="absolute w-1 h-1 rounded-full"
-          style={{
-            background: "#14b8a6",
-            boxShadow: "0 0 8px rgba(20, 184, 166, 0.6)",
-            animation: `dataPulseOne 8s ease-in-out infinite`,
-            opacity: 0.07,
-            left: "10%",
-            top: "20%",
-          }}
-        />
-
-        {/* Particle 2 - Gold pulse along different path */}
-        <div
-          className="absolute w-1.5 h-1.5 rounded-full"
-          style={{
-            background: "#eab308",
-            boxShadow: "0 0 10px rgba(234, 179, 8, 0.5)",
-            animation: `dataPulseTwo 10s ease-in-out infinite`,
-            opacity: 0.06,
-            left: "75%",
-            top: "30%",
-          }}
-        />
-
-        {/* Particle 3 - Teal pulse along vertical path */}
-        <div
-          className="absolute w-1 h-1 rounded-full"
-          style={{
-            background: "#14b8a6",
-            boxShadow: "0 0 8px rgba(20, 184, 166, 0.5)",
-            animation: `dataPulseThree 9s ease-in-out infinite`,
-            opacity: 0.065,
-            left: "45%",
-            top: "10%",
-          }}
-        />
-
-        {/* Particle 4 - Gold pulse along horizontal path */}
-        <div
-          className="absolute w-1 h-1 rounded-full"
-          style={{
-            background: "#eab308",
-            boxShadow: "0 0 8px rgba(234, 179, 8, 0.5)",
-            animation: `dataPulseFour 11s ease-in-out infinite`,
-            opacity: 0.055,
-            left: "20%",
-            top: "65%",
-          }}
-        />
-
-        {/* Particle 5 - Teal secondary pulse */}
-        <div
-          className="absolute w-0.5 h-0.5 rounded-full"
-          style={{
-            background: "#14b8a6",
-            boxShadow: "0 0 6px rgba(20, 184, 166, 0.4)",
-            animation: `dataPulseFive 7s ease-in-out infinite`,
-            opacity: 0.04,
-            left: "85%",
-            top: "55%",
-          }}
-        />
-      </div>
-
-      {/* CSS Animations embedded as style tag to ensure they work */}
-      <style>{`
-        @keyframes dataPulseOne {
-          0% {
-            transform: translate(0, 0);
-            opacity: 0.07;
-          }
-          25% {
-            transform: translate(80px, 60px);
-            opacity: 0.08;
-          }
-          50% {
-            transform: translate(120px, 140px);
-            opacity: 0.06;
-          }
-          75% {
-            transform: translate(60px, 100px);
-            opacity: 0.07;
-          }
-          100% {
-            transform: translate(0, 0);
-            opacity: 0.07;
-          }
-        }
-
-        @keyframes dataPulseTwo {
-          0% {
-            transform: translate(0, 0);
-            opacity: 0.06;
-          }
-          25% {
-            transform: translate(-60px, 100px);
-            opacity: 0.07;
-          }
-          50% {
-            transform: translate(-100px, 160px);
-            opacity: 0.065;
-          }
-          75% {
-            transform: translate(-40px, 80px);
-            opacity: 0.06;
-          }
-          100% {
-            transform: translate(0, 0);
-            opacity: 0.06;
-          }
-        }
-
-        @keyframes dataPulseThree {
-          0% {
-            transform: translate(0, 0);
-            opacity: 0.065;
-          }
-          25% {
-            transform: translate(20px, 80px);
-            opacity: 0.07;
-          }
-          50% {
-            transform: translate(0px, 180px);
-            opacity: 0.065;
-          }
-          75% {
-            transform: translate(-20px, 100px);
-            opacity: 0.06;
-          }
-          100% {
-            transform: translate(0, 0);
-            opacity: 0.065;
-          }
-        }
-
-        @keyframes dataPulseFour {
-          0% {
-            transform: translate(0, 0);
-            opacity: 0.055;
-          }
-          25% {
-            transform: translate(100px, 0px);
-            opacity: 0.065;
-          }
-          50% {
-            transform: translate(200px, 20px);
-            opacity: 0.06;
-          }
-          75% {
-            transform: translate(80px, -10px);
-            opacity: 0.055;
-          }
-          100% {
-            transform: translate(0, 0);
-            opacity: 0.055;
-          }
-        }
-
-        @keyframes dataPulseFive {
-          0% {
-            transform: translate(0, 0);
-            opacity: 0.04;
-          }
-          33% {
-            transform: translate(-60px, -80px);
-            opacity: 0.05;
-          }
-          66% {
-            transform: translate(-120px, -140px);
-            opacity: 0.045;
-          }
-          100% {
-            transform: translate(0, 0);
-            opacity: 0.04;
-          }
-        }
-      `}</style>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 z-0 pointer-events-none"
+      aria-hidden="true"
+      style={{ opacity: 0.6 }}
+    />
   );
 }

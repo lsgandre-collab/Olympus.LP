@@ -85,13 +85,15 @@ function AnimatedCounter({ value, suffix, duration = 2000, isLessThan = false, f
       { threshold: 0.3 }
     );
 
-    if (countRef.current) {
-      observer.observe(countRef.current);
+    const currentRef = countRef.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (countRef.current) {
-        observer.unobserve(countRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, [isVisible]);
@@ -132,6 +134,7 @@ function AnimatedCounter({ value, suffix, duration = 2000, isLessThan = false, f
 }
 
 function MetricCard({ metric }: { metric: typeof METRICS[0] }) {
+  const { t } = useLang();
   const progress = (metric.value / Math.max(...METRICS.map(m => m.value))) * 100;
 
   return (
@@ -148,7 +151,7 @@ function MetricCard({ metric }: { metric: typeof METRICS[0] }) {
 
         {/* Before/After comparison */}
         <div className="flex items-baseline justify-between mb-4">
-          <span className="text-sm text-zinc-500">Antes:</span>
+          <span className="text-sm text-zinc-500">{t("Antes:", "Before:")}</span>
           <span className="text-sm font-mono text-zinc-600">{metric.before}</span>
         </div>
 
@@ -212,7 +215,7 @@ export function SectionResults() {
             <div className="relative">
               {/* Quote mark decoration */}
               <div className="absolute -left-8 -top-8 text-6xl opacity-10" style={{ color: "#22c55e" }}>
-                "
+                {`"`}
               </div>
 
               <blockquote className="text-center">

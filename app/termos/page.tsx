@@ -32,7 +32,7 @@ export default function TermsPage() {
                 de inventário, análise de dados e estratégias de precificação.
               </p>
               <p className="text-zinc-300 mb-4">
-                O serviço é fornecido pela TwelvePrime ("Empresa", "Nós" ou "Nosso") sob demanda via internet, acessível através de interface web
+                O serviço é fornecido pela TwelvePrime {`("Empresa", "Nós" ou "Nosso")`} sob demanda via internet, acessível através de interface web
                 e APIs integradas. O acesso ao serviço está condicionado à aceitação integral destes Termos de Uso.
               </p>
             </section>
@@ -89,7 +89,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mt-8 mb-4">5. Limitação de Responsabilidade</h2>
               <p className="text-zinc-300 mb-4">
-                <strong>Isenção de Garantias:</strong> O OLYMPUS é fornecido "como está" e "conforme disponível", sem garantias
+                <strong>Isenção de Garantias:</strong> O OLYMPUS é fornecido {`"como está" e "conforme disponível"`}, sem garantias
                 de qualquer tipo, expressas ou implícitas, incluindo garantias de comercialização, adequação a um fim específico
                 ou não-violação.
               </p>
