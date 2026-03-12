@@ -75,7 +75,7 @@ export default function DemoPage() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % DEMO_SCREENS.length);
-    }, 6000);
+    }, 45000);
     return () => clearInterval(timer);
   }, []);
 

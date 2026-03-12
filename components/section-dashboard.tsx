@@ -32,11 +32,11 @@ export function SectionDashboard() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
-  // Auto-advance every 5s
+  // Auto-advance every 45s
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % SCREENSHOTS.length);
-    }, 5000);
+    }, 45000);
     return () => clearInterval(timer);
   }, []);
 
