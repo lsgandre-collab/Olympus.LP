@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function GlobalDots() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [mobileOpacity, setMobileOpacity] = useState(0.8);
+
+  useEffect(() => {
+    setMobileOpacity(window.innerWidth < 768 ? 0.4 : 0.8);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -54,11 +59,12 @@ export function GlobalDots() {
     const AGENT_NAMES = Object.keys(AGENT_COLORS);
     const TEAL = [20, 184, 166];
     const GOLD = [234, 179, 8];
-    const PARTICLE_COUNT = 80;
-    const CONNECTION_DIST = 250;
-    const MIN_ALPHA = 0.15;
-    const MAX_ALPHA = 0.45;
-    const MAX_TRAVELING_LINES = 8;
+    const isMobile = window.innerWidth < 768;
+    const PARTICLE_COUNT = isMobile ? 20 : 80;
+    const CONNECTION_DIST = isMobile ? 150 : 250;
+    const MIN_ALPHA = isMobile ? 0.08 : 0.15;
+    const MAX_ALPHA = isMobile ? 0.20 : 0.45;
+    const MAX_TRAVELING_LINES = isMobile ? 2 : 8;
     const TRAVELING_LINE_DURATION = 2500; // milliseconds
 
     function initParticles() {
@@ -71,7 +77,7 @@ export function GlobalDots() {
           y: Math.random() * canvas!.height,
           vx: (Math.random() - 0.5) * 0.3,
           vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 1.5 + 1.5,
+          size: isMobile ? Math.random() * 1 + 1 : Math.random() * 1.5 + 1.5,
           color: `${c[0]},${c[1]},${c[2]}`,
           alpha: Math.random() * (MAX_ALPHA - MIN_ALPHA) + MIN_ALPHA,
           agentName,
@@ -206,7 +212,7 @@ export function GlobalDots() {
       ref={canvasRef}
       className="fixed inset-0 z-0 pointer-events-none"
       aria-hidden="true"
-      style={{ opacity: 0.8 }}
+      style={{ opacity: mobileOpacity }}
     />
   );
 }

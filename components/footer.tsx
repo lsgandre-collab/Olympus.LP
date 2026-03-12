@@ -53,10 +53,10 @@ export function Footer() {
   const quote = quotes[quoteIndex];
 
   return (
-    <footer className="border-t border-zinc-800/30 bg-zinc-950 py-12">
+    <footer className="border-t border-zinc-800/30 bg-zinc-950 pt-20 pb-12">
       <div className="mx-auto max-w-6xl px-6">
         {/* Philosophical Quote */}
-        <div className="mb-14 text-center transition-all duration-700">
+        <div className="mb-16 text-center transition-all duration-700">
           <p className="text-sm italic text-zinc-400 max-w-lg mx-auto leading-relaxed">
             &ldquo;{quote.text}&rdquo;
           </p>

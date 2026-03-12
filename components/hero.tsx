@@ -226,10 +226,7 @@ export function Hero() {
                   transition: `all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${item.delay * 0.1}s`,
                 }}
               >
-                <div className="ticker-number">
-                  <span className="ticker-unit">{item.agent}</span>
-                </div>
-                <div className="ticker-text">{item.text}</div>
+                <div className="ticker-text" style={{ marginTop: 0 }}>{item.text}</div>
               </div>
             ))}
           </div>
