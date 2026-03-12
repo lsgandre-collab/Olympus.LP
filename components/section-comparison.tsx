@@ -354,17 +354,32 @@ export function SectionComparison() {
 }
 
 function ROIResults({ skus, monthlyRevenue, employees, t }: any) {
-  // Calculate OLYMPUS cost
-  const olympusCost = Math.max(2000, monthlyRevenue * 0.015);
+  // OLYMPUS tiered pricing: scales with operation size
+  // Small: R$997, Medium: R$1.997, Large: 1% of revenue (capped at R$15k)
+  const olympusCost = monthlyRevenue <= 50000
+    ? 997
+    : monthlyRevenue <= 200000
+      ? 1997
+      : monthlyRevenue <= 500000
+        ? 2997
+        : Math.min(monthlyRevenue * 0.01, 15000);
 
-  // Calculate savings
-  const teamSavings = employees * 5000 - olympusCost;
-  const marginIncrease = monthlyRevenue * 0.21;
-  const adsSavings = monthlyRevenue * 0.08;
+  // Team savings: avg salary per employee varies by operation size
+  const avgSalary = monthlyRevenue <= 100000 ? 3500 : monthlyRevenue <= 500000 ? 5000 : 6500;
+  const teamSavings = Math.max(0, employees * avgSalary - olympusCost);
+
+  // Margin increase: scales with SKU complexity (more SKUs = more optimization potential)
+  const marginRate = skus <= 200 ? 0.12 : skus <= 1000 ? 0.18 : 0.21;
+  const marginIncrease = monthlyRevenue * marginRate;
+
+  // Ads savings: based on typical ACoS reduction
+  const adsRate = skus <= 200 ? 0.05 : skus <= 1000 ? 0.07 : 0.08;
+  const adsSavings = monthlyRevenue * adsRate;
+
   const totalROI = teamSavings + marginIncrease + adsSavings;
 
   // ROI percentage (compared to OLYMPUS cost)
-  const roiPercentage = Math.round((totalROI / olympusCost) * 100);
+  const roiPercentage = olympusCost > 0 ? Math.round((totalROI / olympusCost) * 100) : 0;
 
   return (
     <div className="space-y-8">

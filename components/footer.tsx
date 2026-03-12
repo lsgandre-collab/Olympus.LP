@@ -46,7 +46,7 @@ export function Footer() {
   useEffect(() => {
     const interval = setInterval(() => {
       setQuoteIndex((prev) => (prev + 1) % quotes.length);
-    }, 12000);
+    }, 600000);
     return () => clearInterval(interval);
   }, [quotes.length]);
 
@@ -56,11 +56,11 @@ export function Footer() {
     <footer className="border-t border-zinc-800/30 bg-zinc-950 py-12">
       <div className="mx-auto max-w-6xl px-6">
         {/* Philosophical Quote */}
-        <div className="mb-10 text-center transition-all duration-700">
+        <div className="mb-14 text-center transition-all duration-700">
           <p className="text-sm italic text-zinc-400 max-w-lg mx-auto leading-relaxed">
             &ldquo;{quote.text}&rdquo;
           </p>
-          <p className="mt-2 text-xs text-zinc-600">— {quote.author}</p>
+          <p className="mt-3 text-xs text-zinc-600">— {quote.author}</p>
         </div>
 
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">

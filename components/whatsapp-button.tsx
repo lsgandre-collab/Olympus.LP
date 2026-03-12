@@ -3,30 +3,216 @@
 import { useState, useEffect, useRef } from "react";
 import { useLang } from "@/contexts/lang-context";
 
-const CHAT_MESSAGES_PT = [
+// Conversation 1: Price drop detection (refined)
+const CHAT_CONV_1_PT = [
   { from: "atlas", text: "Andre, detectei queda de 12% no preço do SKU AMZN-4521 no concorrente principal.", time: "14:32" },
   { from: "andre", text: "Qual a margem atual?", time: "14:33" },
-  { from: "atlas", text: "Margem atual: 31%. Ajustei automaticamente para R$47.90 mantendo margem de 28%. Ainda acima do mínimo configurado (25%).", time: "14:33" },
+  { from: "atlas", text: "Margem atual: 31%. Ajustei automaticamente para R$47.90 mantendo margem de 28%. Ainda acima do mínimo configurado (25%).", time: "14:33", type: "audio", duration: "0:08" },
   { from: "andre", text: "Perfeito. E os ads desse SKU?", time: "14:34" },
   { from: "atlas", text: "Ares já reduziu o bid em 8% para compensar. ACoS projetado: 14.2%. Tudo sob controle. 🎯", time: "14:34" },
 ];
 
-const CHAT_MESSAGES_EN = [
+const CHAT_CONV_1_EN = [
   { from: "atlas", text: "Andre, I detected a 12% price drop on SKU AMZN-4521 from the main competitor.", time: "14:32" },
   { from: "andre", text: "What's the current margin?", time: "14:33" },
-  { from: "atlas", text: "Current margin: 31%. I auto-adjusted to R$47.90 keeping margin at 28%. Still above configured minimum (25%).", time: "14:33" },
+  { from: "atlas", text: "Current margin: 31%. I auto-adjusted to R$47.90 keeping margin at 28%. Still above configured minimum (25%).", time: "14:33", type: "audio", duration: "0:08" },
   { from: "andre", text: "Perfect. What about ads for this SKU?", time: "14:34" },
   { from: "atlas", text: "Ares already reduced the bid by 8% to compensate. Projected ACoS: 14.2%. Everything under control. 🎯", time: "14:34" },
 ];
+
+// Conversation 2: Stock running low and auto-reorder
+const CHAT_CONV_2_PT = [
+  { from: "atlas", text: "Andre, estoque do SKU SMART-TV-65 em 8 unidades. Limite mínimo é 15.", time: "09:15" },
+  { from: "andre", text: "Já disparou o reabastecimento?", time: "09:16" },
+  { from: "atlas", text: "Sim, compra automática autorizada para 200 unidades. ETA: 5 dias úteis.", time: "09:16", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Bom. Qual o impacto no fluxo de caixa?", time: "09:17" },
+  { from: "atlas", text: "Impacto: R$28.000. Isso vai ser recuperado em 3 semanas considerando a velocidade média de venda. Fluxo controlado. 💰", time: "09:17" },
+];
+
+const CHAT_CONV_2_EN = [
+  { from: "atlas", text: "Andre, stock of SKU SMART-TV-65 is at 8 units. Minimum threshold is 15.", time: "09:15" },
+  { from: "andre", text: "Did you trigger the restock?", time: "09:16" },
+  { from: "atlas", text: "Yes, authorized automatic purchase for 200 units. ETA: 5 business days.", time: "09:16", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Good. What's the cash flow impact?", time: "09:17" },
+  { from: "atlas", text: "Impact: R$28,000. This will be recovered in 3 weeks based on average sales velocity. Flow controlled. 💰", time: "09:17" },
+];
+
+// Conversation 3: Review response and reputation management
+const CHAT_CONV_3_PT = [
+  { from: "atlas", text: "Alerta: 2 reviews 1-estrela recebidas nas últimas 2 horas. Ambas mencionam demora na entrega.", time: "16:42" },
+  { from: "andre", text: "Qual o impacto na nota média?", time: "16:43" },
+  { from: "atlas", text: "Nota caiu de 4.7 para 4.65. Disparei respostas automáticas oferecendo compensação. Templates ativadas.", time: "16:44", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Bora fazer Follow-up pessoal?", time: "16:44" },
+  { from: "atlas", text: "Já enviei convites para comentar novamente. Chance de conversão: 35%. Se aceitos, esperamos recuperar para 4.7+ em 2 semanas. ⭐", time: "16:45" },
+];
+
+const CHAT_CONV_3_EN = [
+  { from: "atlas", text: "Alert: 2 one-star reviews received in the last 2 hours. Both mention shipping delays.", time: "16:42" },
+  { from: "andre", text: "What's the impact on overall rating?", time: "16:43" },
+  { from: "atlas", text: "Rating dropped from 4.7 to 4.65. I sent automated responses offering compensation. Templates activated.", time: "16:44", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Should we do personal follow-up?", time: "16:44" },
+  { from: "atlas", text: "Already sent invites to re-review. Conversion chance: 35%. If accepted, we should recover to 4.7+ in 2 weeks. ⭐", time: "16:45" },
+];
+
+// Conversation 4: Ad campaign ACoS optimization
+const CHAT_CONV_4_PT = [
+  { from: "atlas", text: "Campanha 'Verão-Eletrônicos' com ACoS em 18.5%. Acima do limite de 16%.", time: "11:20" },
+  { from: "andre", text: "Qual SKU está puxando o ACoS para cima?", time: "11:21" },
+  { from: "atlas", text: "Fone Bluetooth (30% da campanha). Reduzi o ASIN match negativo e excluí públicos de baixa conversão.", time: "11:22", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Funcionou?", time: "11:22" },
+  { from: "atlas", text: "Novo ACoS projetado: 15.2% em 48h. ROAS deve melhorar para 6.8x. Vou continuar monitorando. 📊", time: "11:23" },
+];
+
+const CHAT_CONV_4_EN = [
+  { from: "atlas", text: "Campaign 'Summer-Electronics' with ACoS at 18.5%. Above 16% target.", time: "11:20" },
+  { from: "andre", text: "Which SKU is pulling the ACoS up?", time: "11:21" },
+  { from: "atlas", text: "Bluetooth headphones (30% of campaign). I reduced ASIN match negatives and excluded low-converting audiences.", time: "11:22", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Did it work?", time: "11:22" },
+  { from: "atlas", text: "Projected ACoS: 15.2% in 48h. ROAS should improve to 6.8x. I'll keep monitoring. 📊", time: "11:23" },
+];
+
+// Conversation 5: Listing optimization suggestion
+const CHAT_CONV_5_PT = [
+  { from: "atlas", text: "Análise concluída: SKU KITCHEN-MIXER-PRO com potencial de otimização de 24% em conversão.", time: "13:50" },
+  { from: "andre", text: "O que você sugeriu?", time: "13:51" },
+  { from: "atlas", text: "Reordenar bullet points por relevância, adicionar 2 imagens lifestyle, e melhorar a descrição de material/durabilidade.", time: "13:52", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Estimativa de impacto?", time: "13:52" },
+  { from: "atlas", text: "Conversão atual: 3.2%. Projeção após mudanças: 3.9-4.1%. Economia potencial de R$1.200/mês em ad spend. Vou preparar os assets. ✨", time: "13:53" },
+];
+
+const CHAT_CONV_5_EN = [
+  { from: "atlas", text: "Analysis complete: SKU KITCHEN-MIXER-PRO has 24% conversion optimization potential.", time: "13:50" },
+  { from: "andre", text: "What did you suggest?", time: "13:51" },
+  { from: "atlas", text: "Reorder bullet points by relevance, add 2 lifestyle images, and improve material/durability description.", time: "13:52", type: "audio", duration: "0:08" },
+  { from: "andre", text: "Impact estimate?", time: "13:52" },
+  { from: "atlas", text: "Current conversion: 3.2%. Projection after changes: 3.9-4.1%. Potential ad spend savings: R$1,200/month. I'll prepare the assets. ✨", time: "13:53" },
+];
+
+// Conversation banks
+const CONVERSATION_BANKS_PT = [
+  CHAT_CONV_1_PT,
+  CHAT_CONV_2_PT,
+  CHAT_CONV_3_PT,
+  CHAT_CONV_4_PT,
+  CHAT_CONV_5_PT,
+];
+
+const CONVERSATION_BANKS_EN = [
+  CHAT_CONV_1_EN,
+  CHAT_CONV_2_EN,
+  CHAT_CONV_3_EN,
+  CHAT_CONV_4_EN,
+  CHAT_CONV_5_EN,
+];
+
+// Function to randomly select a conversation
+const getRandomConversation = (lang: string) => {
+  const banks = lang === "pt" ? CONVERSATION_BANKS_PT : CONVERSATION_BANKS_EN;
+  const randomIndex = Math.floor(Math.random() * banks.length);
+  return banks[randomIndex];
+};
+
+// Audio message component with animated waveform
+function AudioMessage({ msg }: { msg: any }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+  const totalDuration = 8000; // 8 seconds in milliseconds
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const interval = setInterval(() => {
+      setElapsed((prev) => {
+        if (prev >= totalDuration) {
+          setIsPlaying(false);
+          return 0;
+        }
+        return prev + 50;
+      });
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  const handlePlayClick = () => {
+    setIsPlaying(!isPlaying);
+    if (!isPlaying) setElapsed(0);
+  };
+
+  return (
+    <div
+      className={`max-w-[80%] px-3 py-2 rounded-lg text-sm leading-relaxed ${
+        msg.from === "andre"
+          ? "bg-[#005c4b] text-zinc-100 rounded-tr-none"
+          : "bg-zinc-800 text-zinc-200 rounded-tl-none"
+      }`}
+    >
+      {msg.from === "atlas" && (
+        <p className="text-teal-400 text-[10px] font-semibold mb-2">ATLAS</p>
+      )}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={handlePlayClick}
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+            msg.from === "andre"
+              ? "bg-zinc-700 hover:bg-zinc-600"
+              : "bg-teal-600 hover:bg-teal-700"
+          }`}
+        >
+          {isPlaying ? (
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
+
+        <div className="flex items-center gap-1 flex-1 h-8">
+          {[...Array(20)].map((_, i) => {
+            const barProgress = (elapsed / totalDuration) * 20;
+            const isActive = i < barProgress;
+            return (
+              <div
+                key={i}
+                className={`flex-1 transition-all duration-50 rounded-full ${
+                  isActive ? "bg-teal-400 h-5" : "bg-zinc-600 h-3"
+                }`}
+              />
+            );
+          })}
+        </div>
+
+        <span className="text-[10px] text-zinc-400 flex-shrink-0">{msg.duration}</span>
+      </div>
+
+      <div className="flex items-center justify-end gap-1 mt-2">
+        <span className="text-[10px] text-zinc-400">{msg.time}</span>
+        {msg.from === "andre" && (
+          <svg className="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+          </svg>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function WhatsAppButton() {
   const { t, lang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
   const [visibleMessages, setVisibleMessages] = useState(0);
   const [hasBeenOpened, setHasBeenOpened] = useState(false);
+  const [messages, setMessages] = useState<any[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
 
-  const messages = lang === "pt" ? CHAT_MESSAGES_PT : CHAT_MESSAGES_EN;
+  // Initialize conversation when component mounts
+  useEffect(() => {
+    const selectedConversation = getRandomConversation(lang);
+    setMessages(selectedConversation);
+  }, [lang]);
 
   // Show notification dot after 3 seconds
   const [showNotification, setShowNotification] = useState(false);
@@ -40,7 +226,8 @@ export function WhatsAppButton() {
     if (!isOpen) return;
     if (visibleMessages >= messages.length) return;
 
-    const delay = visibleMessages === 0 ? 300 : 800;
+    // First message after 600ms, subsequent messages after random 1500-2500ms
+    const delay = visibleMessages === 0 ? 600 : Math.random() * 1000 + 1500;
     const timer = setTimeout(() => {
       setVisibleMessages((v) => v + 1);
     }, delay);
@@ -56,11 +243,20 @@ export function WhatsAppButton() {
   }, [visibleMessages]);
 
   const handleOpen = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen && !hasBeenOpened) {
-      setHasBeenOpened(true);
-      setShowNotification(false);
+    if (!isOpen) {
+      // Opening the chat
+      setIsOpen(true);
+      if (!hasBeenOpened) {
+        setHasBeenOpened(true);
+        setShowNotification(false);
+      }
       setVisibleMessages(0);
+      // Select a random conversation when opening
+      const selectedConversation = getRandomConversation(lang);
+      setMessages(selectedConversation);
+    } else {
+      // Closing the chat
+      setIsOpen(false);
     }
   };
 
@@ -118,26 +314,30 @@ export function WhatsAppButton() {
                 animation: "slideUp 0.3s ease-out forwards",
               }}
             >
-              <div
-                className={`max-w-[80%] px-3 py-2 rounded-lg text-sm leading-relaxed ${
-                  msg.from === "andre"
-                    ? "bg-[#005c4b] text-zinc-100 rounded-tr-none"
-                    : "bg-zinc-800 text-zinc-200 rounded-tl-none"
-                }`}
-              >
-                {msg.from === "atlas" && (
-                  <p className="text-teal-400 text-[10px] font-semibold mb-1">ATLAS</p>
-                )}
-                <p>{msg.text}</p>
-                <div className="flex items-center justify-end gap-1 mt-1">
-                  <span className="text-[10px] text-zinc-400">{msg.time}</span>
-                  {msg.from === "andre" && (
-                    <svg className="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                    </svg>
+              {msg.type === "audio" ? (
+                <AudioMessage msg={msg} />
+              ) : (
+                <div
+                  className={`max-w-[80%] px-3 py-2 rounded-lg text-sm leading-relaxed ${
+                    msg.from === "andre"
+                      ? "bg-[#005c4b] text-zinc-100 rounded-tr-none"
+                      : "bg-zinc-800 text-zinc-200 rounded-tl-none"
+                  }`}
+                >
+                  {msg.from === "atlas" && (
+                    <p className="text-teal-400 text-[10px] font-semibold mb-1">ATLAS</p>
                   )}
+                  <p>{msg.text}</p>
+                  <div className="flex items-center justify-end gap-1 mt-1">
+                    <span className="text-[10px] text-zinc-400">{msg.time}</span>
+                    {msg.from === "andre" && (
+                      <svg className="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ))}
 

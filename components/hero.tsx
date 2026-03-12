@@ -4,64 +4,24 @@ import { useEffect, useState } from "react";
 import { useLang } from "@/contexts/lang-context";
 
 const TICKER_PT = [
-  { number: "4.152", unit: "SKUs", text: "sendo analisados agora", color: "#14b8a6", delay: 0 },
-  { number: "2.4M", unit: "R$", text: "em faturamento monitorado", color: "#22c55e", delay: 0.2 },
-  { number: "347", unit: "", text: "ajustes de preço nas últimas 24h", color: "#eab308", delay: 0.4 },
-  { number: "12", unit: "", text: "campanhas otimizadas automaticamente", color: "#8b5cf6", delay: 0.6 },
-  { number: "99.7%", unit: "", text: "uptime do sistema", color: "#3b82f6", delay: 0.8 },
-  { number: "+42%", unit: "", text: "margem líquida média dos sellers", color: "#ec4899", delay: 1.0 },
+  { agent: "Apollo", text: "SKUs sendo analisados em tempo real", color: "#8b5cf6", delay: 0 },
+  { agent: "Artemis", text: "Margens sendo protegidas automaticamente", color: "#22c55e", delay: 0.2 },
+  { agent: "Ares", text: "Campanhas de Ads sendo otimizadas", color: "#eab308", delay: 0.4 },
+  { agent: "Hefesto", text: "Listings sendo atualizados no cat\u00e1logo", color: "#f97316", delay: 0.6 },
+  { agent: "Dem\u00e9ter", text: "Estoque sendo monitorado e reposto", color: "#14b8a6", delay: 0.8 },
+  { agent: "Plutus", text: "Reviews sendo respondidas automaticamente", color: "#6366f1", delay: 1.0 },
 ];
 
 const TICKER_EN = [
-  { number: "4,152", unit: "SKUs", text: "being analyzed right now", color: "#14b8a6", delay: 0 },
-  { number: "2.4M", unit: "$", text: "in monitored revenue", color: "#22c55e", delay: 0.2 },
-  { number: "347", unit: "", text: "price adjustments in last 24h", color: "#eab308", delay: 0.4 },
-  { number: "12", unit: "", text: "campaigns auto-optimized", color: "#8b5cf6", delay: 0.6 },
-  { number: "99.7%", unit: "", text: "system uptime", color: "#3b82f6", delay: 0.8 },
-  { number: "+42%", unit: "", text: "average net margin for sellers", color: "#ec4899", delay: 1.0 },
+  { agent: "Apollo", text: "SKUs being analyzed in real-time", color: "#8b5cf6", delay: 0 },
+  { agent: "Artemis", text: "Margins being protected automatically", color: "#22c55e", delay: 0.2 },
+  { agent: "Ares", text: "Ad campaigns being optimized", color: "#eab308", delay: 0.4 },
+  { agent: "Hefesto", text: "Listings being updated in catalog", color: "#f97316", delay: 0.6 },
+  { agent: "Dem\u00e9ter", text: "Inventory being monitored and restocked", color: "#14b8a6", delay: 0.8 },
+  { agent: "Plutus", text: "Reviews being responded automatically", color: "#6366f1", delay: 1.0 },
 ];
 
-function AnimatedCounter({ value, unit }: { value: string; unit: string }) {
-  const [displayValue, setDisplayValue] = useState("0");
-
-  useEffect(() => {
-    // Extract numeric part for animation
-    const numericMatch = value.match(/[\d.]+/);
-    if (!numericMatch) {
-      setDisplayValue(value);
-      return;
-    }
-
-    const numericValue = parseFloat(numericMatch[0]);
-    const isPercentage = value.includes("%");
-    const isMoney = unit === "R$" || unit === "$";
-
-    let currentValue = 0;
-    const step = numericValue / 30;
-    const interval = setInterval(() => {
-      currentValue += step;
-      if (currentValue >= numericValue) {
-        currentValue = numericValue;
-        clearInterval(interval);
-      }
-
-      let formatted = currentValue.toFixed(isPercentage || isMoney ? 1 : 0);
-      if (unit === "SKUs" && currentValue >= 1000) {
-        formatted = (currentValue / 1000).toFixed(1) + "K";
-      } else if (unit === "$" || unit === "R$") {
-        if (currentValue >= 1000000) {
-          formatted = (currentValue / 1000000).toFixed(1) + "M";
-        }
-      }
-
-      setDisplayValue(formatted);
-    }, 40);
-
-    return () => clearInterval(interval);
-  }, [value, unit]);
-
-  return <>{displayValue}</>;
-}
+/* AnimatedCounter removed — ticker now shows agent actions instead of numbers */
 
 export function Hero() {
   const { t, lang } = useLang();
@@ -267,8 +227,7 @@ export function Hero() {
                 }}
               >
                 <div className="ticker-number">
-                  <AnimatedCounter value={item.number} unit={item.unit} />
-                  {item.unit && <span className="ticker-unit"> {item.unit}</span>}
+                  <span className="ticker-unit">{item.agent}</span>
                 </div>
                 <div className="ticker-text">{item.text}</div>
               </div>

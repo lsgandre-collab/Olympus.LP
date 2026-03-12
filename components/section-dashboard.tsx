@@ -13,17 +13,17 @@ const SCREENSHOTS = [
   },
   {
     src: "/images/dashboard-agents.png",
-    labelPt: "Painel de Agentes",
-    labelEn: "Agents Panel",
-    descPt: "Status individual de cada agente com ações recentes e performance.",
-    descEn: "Individual status of each agent with recent actions and performance.",
+    labelPt: "Amazon Results",
+    labelEn: "Amazon Results",
+    descPt: "Resultados da Amazon: vendas, BSR, Buy Box, sess\u00f5es e performance por SKU.",
+    descEn: "Amazon results: sales, BSR, Buy Box, sessions and performance by SKU.",
   },
   {
     src: "/images/dashboard-analytics.png",
-    labelPt: "Analytics & Relatórios",
-    labelEn: "Analytics & Reports",
-    descPt: "Relatórios detalhados de vendas, margens e campanhas publicitárias.",
-    descEn: "Detailed reports on sales, margins and ad campaigns.",
+    labelPt: "Financeiro",
+    labelEn: "Financial",
+    descPt: "Painel financeiro completo: receita, custos, margens, fees da Amazon e lucro l\u00edquido.",
+    descEn: "Complete financial panel: revenue, costs, margins, Amazon fees and net profit.",
   },
 ];
 

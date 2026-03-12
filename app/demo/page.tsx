@@ -14,20 +14,56 @@ const DEMO_SCREENS = [
     labelEn: "Main Dashboard",
     descPt: "Vis\u00e3o geral de todos os agentes, m\u00e9tricas e resultados em tempo real.",
     descEn: "Overview of all agents, metrics and results in real-time.",
+    featuresPt: [
+      "Status de todos os 10 agentes em tempo real",
+      "M\u00e9tricas de vendas, margem e ACoS consolidadas",
+      "Timeline de a\u00e7\u00f5es autom\u00e1ticas executadas",
+      "Alertas e notifica\u00e7\u00f5es priorit\u00e1rias",
+    ],
+    featuresEn: [
+      "Real-time status of all 10 agents",
+      "Consolidated sales, margin and ACoS metrics",
+      "Timeline of automated actions executed",
+      "Priority alerts and notifications",
+    ],
   },
   {
     src: "/images/dashboard-agents.png",
-    labelPt: "Painel de Agentes",
-    labelEn: "Agents Panel",
-    descPt: "Status individual de cada agente com a\u00e7\u00f5es recentes e performance.",
-    descEn: "Individual status of each agent with recent actions and performance.",
+    labelPt: "Amazon Results",
+    labelEn: "Amazon Results",
+    descPt: "Resultados da Amazon: vendas, BSR, Buy Box, sess\u00f5es e performance por SKU.",
+    descEn: "Amazon results: sales, BSR, Buy Box, sessions and performance by SKU.",
+    featuresPt: [
+      "Performance por SKU: vendas, sess\u00f5es, convers\u00e3o",
+      "Ranking BSR e evolu\u00e7\u00e3o hist\u00f3rica",
+      "Buy Box win rate e competi\u00e7\u00e3o de pre\u00e7o",
+      "An\u00e1lise de reviews e rating por produto",
+    ],
+    featuresEn: [
+      "Per-SKU performance: sales, sessions, conversion",
+      "BSR ranking and historical evolution",
+      "Buy Box win rate and price competition",
+      "Review and rating analysis per product",
+    ],
   },
   {
     src: "/images/dashboard-analytics.png",
-    labelPt: "Analytics & Relat\u00f3rios",
-    labelEn: "Analytics & Reports",
-    descPt: "Relat\u00f3rios detalhados de vendas, margens e campanhas publicit\u00e1rias.",
-    descEn: "Detailed reports on sales, margins and ad campaigns.",
+    labelPt: "Financeiro",
+    labelEn: "Financial",
+    descPt: "Painel financeiro completo: receita, custos, margens, fees da Amazon e lucro l\u00edquido.",
+    descEn: "Complete financial panel: revenue, costs, margins, Amazon fees and net profit.",
+    featuresPt: [
+      "Receita bruta vs. l\u00edquida em tempo real",
+      "Breakdown de custos: produto, frete, ads, fees",
+      "Margem por SKU e por categoria",
+      "Proje\u00e7\u00e3o de lucro mensal e tend\u00eancias",
+    ],
+    featuresEn: [
+      "Gross vs. net revenue in real-time",
+      "Cost breakdown: product, shipping, ads, fees",
+      "Margin per SKU and per category",
+      "Monthly profit projection and trends",
+    ],
   },
 ];
 
@@ -110,9 +146,19 @@ export default function DemoPage() {
           </div>
 
           {/* Description */}
-          <p className="mt-4 text-sm text-zinc-500 text-center transition-all duration-300">
+          <p className="mt-6 text-sm text-zinc-400 text-center transition-all duration-300">
             {lang === "pt" ? screen.descPt : screen.descEn}
           </p>
+
+          {/* Feature list for current screenshot */}
+          <div className="mt-6 mx-auto max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {(lang === "pt" ? screen.featuresPt : screen.featuresEn).map((feature: string, fi: number) => (
+              <div key={fi} className="flex items-start gap-2 text-left p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+                <span className="text-teal-400 mt-0.5 flex-shrink-0">&#10003;</span>
+                <span className="text-xs text-zinc-300 leading-relaxed">{feature}</span>
+              </div>
+            ))}
+          </div>
 
           {/* Dots indicator */}
           <div className="mt-4 flex items-center justify-center gap-2 mb-8">

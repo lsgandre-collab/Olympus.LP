@@ -370,48 +370,48 @@ export function SectionAgents() {
           </div>
         </div>
 
-        {/* Mobile — scrollable cards with tap for function */}
+        {/* Mobile — 2-column grid with better framing */}
         <div className="md:hidden">
-          <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide px-2">
+          {/* ATLAS central badge */}
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-teal-950/60 to-zinc-800/60 border border-teal-600/40">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-yellow-500 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">&#937;</span>
+              </div>
+              <span className="text-sm font-semibold text-teal-300">ATLAS</span>
+              <span className="text-[10px] text-zinc-400">{t("Orquestrador", "Orchestrator")}</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 px-1">
             {AGENTS.map((agent, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 w-[170px] snap-center flex flex-col items-center gap-3 p-5 rounded-xl border border-zinc-700/40 bg-zinc-800/30 transition-all duration-300"
+                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-zinc-700/40 bg-zinc-800/30 transition-all duration-300"
                 style={{
-                  boxShadow: `0 0 25px ${agent.color}20`,
-                  animation: `agent-float ${3 + i * 0.15}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.4}s`,
+                  boxShadow: `0 0 20px ${agent.color}15`,
+                  borderColor: `${agent.color}20`,
                 }}
               >
                 <div
                   className="rounded-full flex items-center justify-center relative"
                   style={{
-                    width: 64,
-                    height: 64,
+                    width: 48,
+                    height: 48,
                     backgroundColor: agent.color,
-                    boxShadow: `0 0 35px ${agent.color}70`,
+                    boxShadow: `0 0 25px ${agent.color}60`,
                     border: "2px solid rgba(255,255,255,0.2)",
                   }}
                 >
-                  <span className="text-white font-display font-bold text-xl">{agent.symbol}</span>
-                  {/* breathing ring */}
-                  <div
-                    className="absolute inset-0 rounded-full"
-                    style={{
-                      border: `1.5px solid ${agent.color}`,
-                      animation: "agent-breathe 3s ease-in-out infinite",
-                      animationDelay: `${i * 0.3}s`,
-                    }}
-                  />
+                  <span className="text-white font-display font-bold text-base">{agent.symbol}</span>
                 </div>
-                <span className="text-sm text-white font-semibold">{agent.name}</span>
-                <span className="text-[11px] text-zinc-400 text-center leading-tight">
+                <span className="text-xs text-white font-semibold">{agent.name}</span>
+                <span className="text-[10px] text-zinc-400 text-center leading-tight">
                   {lang === "pt" ? agent.funcPt : agent.funcEn}
                 </span>
               </div>
             ))}
           </div>
-          <p className="text-center text-[10px] text-zinc-600 mt-2">{t("← Deslize para ver todos →", "← Swipe to see all →")}</p>
         </div>
       </div>
 

@@ -32,9 +32,12 @@ export function Nav() {
           ))}
         </div>
         <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
-          <Button variant="outline" size="sm" onClick={() => setLang(lang === "pt" ? "en" : "pt")} className="border-zinc-700 rounded-xl px-3 py-2 text-xs">
-            {lang.toUpperCase()}
-          </Button>
+          <button
+            onClick={() => setLang(lang === "pt" ? "en" : "pt")}
+            className="text-[10px] text-zinc-600 hover:text-zinc-400 transition-colors font-mono tracking-wide opacity-60 hover:opacity-100"
+          >
+            {lang === "pt" ? "EN" : "PT"}
+          </button>
           <Button asChild size="default" className="rounded-2xl bg-red-600 hover:bg-red-700 text-white hidden sm:inline-flex">
             <Link href="#waitlist">{t("Waitlist", "Waitlist")}</Link>
           </Button>

@@ -7,7 +7,7 @@ import { useLang } from "@/contexts/lang-context";
 function WhatsAppAudio({ lang }: { lang: string }) {
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const duration = 8;
+  const duration = 15;
 
   useEffect(() => {
     if (!playing) return;
@@ -86,17 +86,42 @@ const CHANNELS: { label: string; color: string; icon: React.ReactNode }[] = [
   {
     label: "Google Calendar",
     color: "#4285F4",
-    icon: <svg viewBox="0 0 24 24" className="w-5 h-5"><path fill="#4285F4" d="M19.5 3h-3V1.5h-1.5V3h-6V1.5H7.5V3h-3C3.675 3 3 3.675 3 4.5v15c0 .825.675 1.5 1.5 1.5h15c.825 0 1.5-.675 1.5-1.5v-15c0-.825-.675-1.5-1.5-1.5zm0 16.5h-15V8.25h15V19.5z"/><path fill="#EA4335" d="M7.5 10.5h3v3h-3z"/><path fill="#FBBC04" d="M12 10.5h3v3h-3z"/><path fill="#34A853" d="M16.5 10.5h3v3h-3z"/></svg>,
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5">
+        <path fill="#4285F4" d="M18.316 5.684H24v12.632h-5.684z"/>
+        <path fill="#EA4335" d="M5.684 24V5.684H0v12.632h5.684V24z"/>
+        <path fill="#FBBC04" d="M18.316 5.684V0H5.684v5.684h12.632z"/>
+        <path fill="#34A853" d="M5.684 18.316V24h12.632v-5.684H5.684z"/>
+        <path fill="#188038" d="M5.684 18.316H0V24h5.684v-5.684z"/>
+        <path fill="#1967D2" d="M18.316 5.684H24V0h-5.684v5.684z"/>
+        <path fill="#fff" d="M9.2 15.85l-1.6-1.2c.533-.8.9-1.733 1.1-2.65H6.5v-1.5h2.3V9.2h1.5v1.3h2.3v1.5h-2.2c.2.967.567 1.85 1.1 2.65l-1.6 1.2-.7-.95-.7.95z"/>
+      </svg>
+    ),
   },
   {
     label: "Google Sheets",
     color: "#0F9D58",
-    icon: <svg viewBox="0 0 24 24" fill="#0F9D58" className="w-5 h-5"><path d="M19.385 2H4.615A2.615 2.615 0 002 4.615v14.77A2.615 2.615 0 004.615 22h14.77A2.615 2.615 0 0022 19.385V4.615A2.615 2.615 0 0019.385 2zM8 18H5v-3h3v3zm0-4.5H5v-3h3v3zm0-4.5H5V6h3v3zm5.5 9h-4v-3h4v3zm0-4.5h-4v-3h4v3zm0-4.5h-4V6h4v3zm5.5 9h-4v-3h4v3zm0-4.5h-4v-3h4v3zm0-4.5h-4V6h4v3z"/></svg>,
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5">
+        <path fill="#0F9D58" d="M14.727 0H6C4.895 0 4 .895 4 2v20c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2V5.273L14.727 0z"/>
+        <path fill="#57BB8A" d="M14.727 0v5.273H20L14.727 0z"/>
+        <rect fill="#fff" x="7" y="11" width="10" height="1.5" rx=".5"/>
+        <rect fill="#fff" x="7" y="14" width="10" height="1.5" rx=".5"/>
+        <rect fill="#fff" x="7" y="17" width="6" height="1.5" rx=".5"/>
+        <rect fill="#fff" x="11.5" y="11" width="1.5" height="7.5" rx=".5"/>
+      </svg>
+    ),
   },
   {
     label: "Seller Central",
     color: "#FF9900",
-    icon: <svg viewBox="0 0 24 24" className="w-5 h-5"><path fill="#FF9900" d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685z"/><path fill="#FF9900" d="M19.8 16.378c-.282.253-.693.271-.999.1-1.395-1.167-1.648-1.704-2.412-2.816-2.31 2.357-3.944 3.063-6.933 3.063C6.11 16.725 4 15.02 4 11.374c0-2.835 1.535-4.764 3.723-5.709 1.896-.834 4.541-.984 6.563-1.213v-.452C14.285 2.96 14.4 2 13.467 1.366 12.643.817 11.534.98 10.645.98c-1.685 0-3.184.865-3.551 2.66-.075.395-.365.785-.766.804l-2.726-.295c-.361-.081-.762-.371-.66-.921C3.658.665 7.146 0 10.262 0c1.572 0 3.627.418 4.87 1.607 1.571 1.463 1.422 3.417 1.422 5.546v5.026c0 1.512.627 2.174 1.218 2.992.205.295.251.646-.012.864-.655.549-1.82 1.574-2.46 2.148l-.5.195z"/><path fill="#232F3E" d="M21.783 19.078C19.387 20.928 15.826 21.92 12.714 21.92c-4.408 0-8.382-1.63-11.384-4.342-.236-.213-.025-.505.258-.339 3.24 1.886 7.248 3.022 11.388 3.022 2.791 0 5.86-.578 8.684-1.779.426-.18.783.28.123.596z"/></svg>,
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-5 h-5">
+        <path fill="#FF9900" d="M.93 17.03A17.25 17.25 0 0012.05 20.7c3.07 0 6.43-.95 8.87-2.73.43-.3.05-.73-.37-.48-2.6 1.53-5.82 2.45-9.13 2.45-4.42 0-8.4-1.63-11.4-4.33-.33-.27-.63.17-.09.42z"/>
+        <path fill="#FF9900" d="M22.12 15.88c-.4-.52-2.67-.25-3.69-.13-.31.04-.36-.23-.08-.42 1.81-1.27 4.78-.9 5.12-.48.34.42-.09 3.37-1.79 4.78-.26.22-.51.1-.39-.18.38-.95 1.23-3.05.83-3.57z"/>
+        <path fill="#ffffff" d="M18.5 9.39V8.5c0-.17.13-.28.28-.28h.11c.16 0 .28.11.28.28v.89c.55.08.97.34 1.01.38.09.06.1.17.03.25l-.47.53c-.07.07-.17.08-.25.03a1.6 1.6 0 00-.84-.25c-.44 0-.66.28-.66.5 0 .33.25.53.86.76.62.23 1.39.56 1.39 1.52 0 .64-.42 1.18-1.07 1.35v.84c0 .17-.13.28-.28.28h-.11c-.16 0-.28-.11-.28-.28v-.81c-.55-.09-1.12-.38-1.19-.42-.1-.06-.13-.17-.06-.26l.44-.56c.07-.08.18-.1.27-.05.3.17.71.37 1.04.37.44 0 .72-.22.72-.55 0-.35-.27-.55-.93-.79-.6-.22-1.35-.55-1.35-1.5 0-.58.37-1.13 1.05-1.31z"/>
+      </svg>
+    ),
   },
   {
     label: "Zapier",
@@ -149,7 +174,7 @@ export function SectionOrchestrator() {
             </span>
           ))}
         </div>
-        <p className="mt-6 text-xs text-zinc-500">{t("Clique no play para ouvir um exemplo de relat\u00f3rio por \u00e1udio", "Click play to hear an example audio report")}</p>
+        <p className="mt-6 text-xs text-zinc-500">{t("Clique no play para ouvir ATLAS explicando suas fun\u00e7\u00f5es", "Click play to hear ATLAS explaining its functions")}</p>
         <WhatsAppAudio lang={lang} />
         <p className="mt-8 text-lg text-zinc-400">
           {t(
