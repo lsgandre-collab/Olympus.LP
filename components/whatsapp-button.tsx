@@ -7,7 +7,7 @@ import { useLang } from "@/contexts/lang-context";
 const CHAT_CONV_1_PT = [
   { from: "atlas", text: "Andre, detectei queda de 12% no preço do SKU AMZN-4521 no concorrente principal.", time: "14:32" },
   { from: "andre", text: "Qual a margem atual?", time: "14:33" },
-  { from: "atlas", text: "Margem atual: 31%. Ajustei automaticamente para R$47.90 mantendo margem de 28%. Ainda acima do mínimo configurado (25%).", time: "14:33", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Margem atual: 31%. Ajustei automaticamente para R$47.90 mantendo margem de 28%. Ainda acima do mínimo configurado (25%).", time: "14:33", type: "audio", duration: "0:12", audioSrc: "/audio/conv1-preco.mp3" },
   { from: "andre", text: "Perfeito. E os ads desse SKU?", time: "14:34" },
   { from: "atlas", text: "Ares já reduziu o bid em 8% para compensar. ACoS projetado: 14.2%. Tudo sob controle. 🎯", time: "14:34" },
 ];
@@ -15,7 +15,7 @@ const CHAT_CONV_1_PT = [
 const CHAT_CONV_1_EN = [
   { from: "atlas", text: "Andre, I detected a 12% price drop on SKU AMZN-4521 from the main competitor.", time: "14:32" },
   { from: "andre", text: "What's the current margin?", time: "14:33" },
-  { from: "atlas", text: "Current margin: 31%. I auto-adjusted to R$47.90 keeping margin at 28%. Still above configured minimum (25%).", time: "14:33", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Current margin: 31%. I auto-adjusted to R$47.90 keeping margin at 28%. Still above configured minimum (25%).", time: "14:33", type: "audio", duration: "0:12", audioSrc: "/audio/conv1-preco.mp3" },
   { from: "andre", text: "Perfect. What about ads for this SKU?", time: "14:34" },
   { from: "atlas", text: "Ares already reduced the bid by 8% to compensate. Projected ACoS: 14.2%. Everything under control. 🎯", time: "14:34" },
 ];
@@ -24,7 +24,7 @@ const CHAT_CONV_1_EN = [
 const CHAT_CONV_2_PT = [
   { from: "atlas", text: "Andre, estoque do SKU SMART-TV-65 em 8 unidades. Limite mínimo é 15.", time: "09:15" },
   { from: "andre", text: "Já disparou o reabastecimento?", time: "09:16" },
-  { from: "atlas", text: "Sim, compra automática autorizada para 200 unidades. ETA: 5 dias úteis.", time: "09:16", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Sim, compra automática autorizada para 200 unidades. ETA: 5 dias úteis.", time: "09:16", type: "audio", duration: "0:11", audioSrc: "/audio/conv2-estoque.mp3" },
   { from: "andre", text: "Bom. Qual o impacto no fluxo de caixa?", time: "09:17" },
   { from: "atlas", text: "Impacto: R$28.000. Isso vai ser recuperado em 3 semanas considerando a velocidade média de venda. Fluxo controlado. 💰", time: "09:17" },
 ];
@@ -32,7 +32,7 @@ const CHAT_CONV_2_PT = [
 const CHAT_CONV_2_EN = [
   { from: "atlas", text: "Andre, stock of SKU SMART-TV-65 is at 8 units. Minimum threshold is 15.", time: "09:15" },
   { from: "andre", text: "Did you trigger the restock?", time: "09:16" },
-  { from: "atlas", text: "Yes, authorized automatic purchase for 200 units. ETA: 5 business days.", time: "09:16", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Yes, authorized automatic purchase for 200 units. ETA: 5 business days.", time: "09:16", type: "audio", duration: "0:11", audioSrc: "/audio/conv2-estoque.mp3" },
   { from: "andre", text: "Good. What's the cash flow impact?", time: "09:17" },
   { from: "atlas", text: "Impact: R$28,000. This will be recovered in 3 weeks based on average sales velocity. Flow controlled. 💰", time: "09:17" },
 ];
@@ -41,7 +41,7 @@ const CHAT_CONV_2_EN = [
 const CHAT_CONV_3_PT = [
   { from: "atlas", text: "Alerta: 2 reviews 1-estrela recebidas nas últimas 2 horas. Ambas mencionam demora na entrega.", time: "16:42" },
   { from: "andre", text: "Qual o impacto na nota média?", time: "16:43" },
-  { from: "atlas", text: "Nota caiu de 4.7 para 4.65. Disparei respostas automáticas oferecendo compensação. Templates ativadas.", time: "16:44", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Nota caiu de 4.7 para 4.65. Disparei respostas automáticas oferecendo compensação. Templates ativadas.", time: "16:44", type: "audio", duration: "0:10", audioSrc: "/audio/conv3-reviews.mp3" },
   { from: "andre", text: "Bora fazer Follow-up pessoal?", time: "16:44" },
   { from: "atlas", text: "Já enviei convites para comentar novamente. Chance de conversão: 35%. Se aceitos, esperamos recuperar para 4.7+ em 2 semanas. ⭐", time: "16:45" },
 ];
@@ -49,7 +49,7 @@ const CHAT_CONV_3_PT = [
 const CHAT_CONV_3_EN = [
   { from: "atlas", text: "Alert: 2 one-star reviews received in the last 2 hours. Both mention shipping delays.", time: "16:42" },
   { from: "andre", text: "What's the impact on overall rating?", time: "16:43" },
-  { from: "atlas", text: "Rating dropped from 4.7 to 4.65. I sent automated responses offering compensation. Templates activated.", time: "16:44", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Rating dropped from 4.7 to 4.65. I sent automated responses offering compensation. Templates activated.", time: "16:44", type: "audio", duration: "0:10", audioSrc: "/audio/conv3-reviews.mp3" },
   { from: "andre", text: "Should we do personal follow-up?", time: "16:44" },
   { from: "atlas", text: "Already sent invites to re-review. Conversion chance: 35%. If accepted, we should recover to 4.7+ in 2 weeks. ⭐", time: "16:45" },
 ];
@@ -58,7 +58,7 @@ const CHAT_CONV_3_EN = [
 const CHAT_CONV_4_PT = [
   { from: "atlas", text: "Campanha 'Verão-Eletrônicos' com ACoS em 18.5%. Acima do limite de 16%.", time: "11:20" },
   { from: "andre", text: "Qual SKU está puxando o ACoS para cima?", time: "11:21" },
-  { from: "atlas", text: "Fone Bluetooth (30% da campanha). Reduzi o ASIN match negativo e excluí públicos de baixa conversão.", time: "11:22", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Fone Bluetooth (30% da campanha). Reduzi o ASIN match negativo e excluí públicos de baixa conversão.", time: "11:22", type: "audio", duration: "0:09", audioSrc: "/audio/conv4-ads.mp3" },
   { from: "andre", text: "Funcionou?", time: "11:22" },
   { from: "atlas", text: "Novo ACoS projetado: 15.2% em 48h. ROAS deve melhorar para 6.8x. Vou continuar monitorando. 📊", time: "11:23" },
 ];
@@ -66,7 +66,7 @@ const CHAT_CONV_4_PT = [
 const CHAT_CONV_4_EN = [
   { from: "atlas", text: "Campaign 'Summer-Electronics' with ACoS at 18.5%. Above 16% target.", time: "11:20" },
   { from: "andre", text: "Which SKU is pulling the ACoS up?", time: "11:21" },
-  { from: "atlas", text: "Bluetooth headphones (30% of campaign). I reduced ASIN match negatives and excluded low-converting audiences.", time: "11:22", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Bluetooth headphones (30% of campaign). I reduced ASIN match negatives and excluded low-converting audiences.", time: "11:22", type: "audio", duration: "0:09", audioSrc: "/audio/conv4-ads.mp3" },
   { from: "andre", text: "Did it work?", time: "11:22" },
   { from: "atlas", text: "Projected ACoS: 15.2% in 48h. ROAS should improve to 6.8x. I'll keep monitoring. 📊", time: "11:23" },
 ];
@@ -75,7 +75,7 @@ const CHAT_CONV_4_EN = [
 const CHAT_CONV_5_PT = [
   { from: "atlas", text: "Análise concluída: SKU KITCHEN-MIXER-PRO com potencial de otimização de 24% em conversão.", time: "13:50" },
   { from: "andre", text: "O que você sugeriu?", time: "13:51" },
-  { from: "atlas", text: "Reordenar bullet points por relevância, adicionar 2 imagens lifestyle, e melhorar a descrição de material/durabilidade.", time: "13:52", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Reordenar bullet points por relevância, adicionar 2 imagens lifestyle, e melhorar a descrição de material/durabilidade.", time: "13:52", type: "audio", duration: "0:12", audioSrc: "/audio/conv5-listing.mp3" },
   { from: "andre", text: "Estimativa de impacto?", time: "13:52" },
   { from: "atlas", text: "Conversão atual: 3.2%. Projeção após mudanças: 3.9-4.1%. Economia potencial de R$1.200/mês em ad spend. Vou preparar os assets. ✨", time: "13:53" },
 ];
@@ -83,7 +83,7 @@ const CHAT_CONV_5_PT = [
 const CHAT_CONV_5_EN = [
   { from: "atlas", text: "Analysis complete: SKU KITCHEN-MIXER-PRO has 24% conversion optimization potential.", time: "13:50" },
   { from: "andre", text: "What did you suggest?", time: "13:51" },
-  { from: "atlas", text: "Reorder bullet points by relevance, add 2 lifestyle images, and improve material/durability description.", time: "13:52", type: "audio", duration: "0:08" },
+  { from: "atlas", text: "Reorder bullet points by relevance, add 2 lifestyle images, and improve material/durability description.", time: "13:52", type: "audio", duration: "0:12", audioSrc: "/audio/conv5-listing.mp3" },
   { from: "andre", text: "Impact estimate?", time: "13:52" },
   { from: "atlas", text: "Current conversion: 3.2%. Projection after changes: 3.9-4.1%. Potential ad spend savings: R$1,200/month. I'll prepare the assets. ✨", time: "13:53" },
 ];
@@ -116,27 +116,56 @@ const getRandomConversation = (lang: string) => {
 function AudioMessage({ msg }: { msg: any }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const totalDuration = 8000; // 8 seconds in milliseconds
+  const [totalDuration, setTotalDuration] = useState(8000);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (msg.audioSrc) {
+      const audio = new Audio(msg.audioSrc);
+      audioRef.current = audio;
+      audio.addEventListener("loadedmetadata", () => {
+        if (audio.duration && isFinite(audio.duration)) {
+          setTotalDuration(audio.duration * 1000);
+        }
+      });
+      audio.addEventListener("ended", () => {
+        setIsPlaying(false);
+        setElapsed(0);
+      });
+      return () => { audio.pause(); audio.src = ""; };
+    }
+  }, [msg.audioSrc]);
 
   useEffect(() => {
     if (!isPlaying) return;
-
     const interval = setInterval(() => {
-      setElapsed((prev) => {
-        if (prev >= totalDuration) {
-          setIsPlaying(false);
-          return 0;
-        }
-        return prev + 50;
-      });
+      if (audioRef.current) {
+        setElapsed(audioRef.current.currentTime * 1000);
+      } else {
+        setElapsed((prev) => {
+          if (prev >= totalDuration) { setIsPlaying(false); return 0; }
+          return prev + 50;
+        });
+      }
     }, 50);
-
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, totalDuration]);
 
   const handlePlayClick = () => {
-    setIsPlaying(!isPlaying);
-    if (!isPlaying) setElapsed(0);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+        setIsPlaying(true);
+        setElapsed(0);
+      }
+    } else {
+      setIsPlaying(!isPlaying);
+      if (!isPlaying) setElapsed(0);
+    }
   };
 
   return (

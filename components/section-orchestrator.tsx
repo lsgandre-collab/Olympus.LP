@@ -1,23 +1,47 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useLang } from "@/contexts/lang-context";
 
 function WhatsAppAudio({ lang }: { lang: string }) {
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const duration = 15;
+  const [duration, setDuration] = useState(22);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio("/audio/atlas-orchestrator.mp3");
+    audioRef.current = audio;
+    audio.addEventListener("loadedmetadata", () => {
+      if (audio.duration && isFinite(audio.duration)) setDuration(audio.duration);
+    });
+    audio.addEventListener("ended", () => {
+      setPlaying(false);
+      setElapsed(0);
+    });
+    return () => { audio.pause(); audio.src = ""; };
+  }, []);
 
   useEffect(() => {
     if (!playing) return;
-    if (elapsed >= duration) { setPlaying(false); setElapsed(0); return; }
-    const timer = setInterval(() => setElapsed((e) => e + 0.1), 100);
+    const timer = setInterval(() => {
+      if (audioRef.current) setElapsed(audioRef.current.currentTime);
+    }, 100);
     return () => clearInterval(timer);
-  }, [playing, elapsed]);
+  }, [playing]);
 
   const toggle = useCallback(() => {
-    if (playing) { setPlaying(false); setElapsed(0); } else { setPlaying(true); setElapsed(0); }
+    if (!audioRef.current) return;
+    if (playing) {
+      audioRef.current.pause();
+      setPlaying(false);
+    } else {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+      setPlaying(true);
+      setElapsed(0);
+    }
   }, [playing]);
 
   const bars = 24;
@@ -38,7 +62,7 @@ function WhatsAppAudio({ lang }: { lang: string }) {
       </div>
       <div className="flex-1 flex items-end gap-[2px] h-5">
         {Array.from({ length: bars }).map((_, i) => {
-          const progress = elapsed / duration;
+          const progress = duration > 0 ? elapsed / duration : 0;
           const barActive = i / bars <= progress;
           const h = playing
             ? 4 + Math.sin((elapsed * 8) + i * 0.7) * 6 + Math.random() * 2
